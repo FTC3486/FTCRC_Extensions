@@ -22,10 +22,10 @@ public class Twitter4jWrapper
         try
         {
             status = twitter.updateStatus(latestStatus);
+            System.out.println("Successfully updated the status to [" + status.getText() + "].");
         } catch (TwitterException e)
         {
             e.printStackTrace();
         }
-        System.out.println("Successfully updated the status to [" + status.getText() + "].");
     }
 }
