@@ -5,22 +5,10 @@ import android.annotation.SuppressLint;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import java.util.LinkedList;
-
 public class pMotor
 {
     final private OpMode opMode;
-    final private double wheelDiameter;
-    final private double gearRatio;
-    // 1120 is the number for the AndyMark motors. Tetrix Motors are 1440 PPR
-    final private int encoderCountsPerDriverGearRotation = 1120;
-
-    final private LinkedList<DcMotor> leftMotorsWithEncoders =
-            new LinkedList<>();
-    final private LinkedList<DcMotor> rightMotorsWithEncoders =
-            new LinkedList<>();
-    final private LinkedList<DcMotor> leftMotors = new LinkedList<>();
-    final private LinkedList<DcMotor> rightMotors = new LinkedList<>();
+    protected final DriveTrain driveTrain;
 
     private double leftSpeed;
     private double rightSpeed;
@@ -44,55 +32,21 @@ public class pMotor
      * .
      * <p/>
      * pMotor should be constructed at the top of the init() block. You
-     * should send it 'this' as the first argument and then your primary left
-     * and right drive motors. If you have more motors on your drive train,
-     * add them after using pMotor.addLeftMotor(), pMotor.addRightMotor(),
-     * pMotor.addLeftMotorWithEncoder(), and pMotor.addRightMotorWithEncoder() .
-     * <p/>
-     * Whichever unit of measurement you use for the wheelDiameter is the
-     * same unit of measurement that will be used in any distance parameters.
-     * So, for example, if you measure the wheel diameter in inches, the
-     * distance traveled by the linear function will be in inches.
+     * should send it 'this' as the first argument and then your DriveTrain
+     * object as the second parameter.
      * <p/>
      * It is important that you add all your drive train motors so that
-     * pMotor will be able to control them all. It is also important that the
-     * primary drive motors have encoders. For best results, the primary
-     * motors should probably be the ones that have continuous contact with
-     * the ground.
+     * pMotor will be able to control them all. It is likewise necessary that
+     * you have added at least one motor with an encoder to your DriveTrain.
      *
-     * @param opMode                Use the 'this' keyword as the argument here.
-     * @param leftMotorWithEncoder  A left motor with an encoder.
-     * @param rightMotorWithEncoder A right motor with an encoder.
+     * @param opMode     Use the 'this' keyword as the argument here.
+     * @param driveTrain A previously constructed DriveTrain with encoders.
+     * @see DriveTrain
      */
-    public pMotor(OpMode opMode, DcMotor leftMotorWithEncoder,
-                  DcMotor rightMotorWithEncoder, double wheelDiameter,
-                  double gearRatio)
+    public pMotor(OpMode opMode, DriveTrain driveTrain)
     {
+        this.driveTrain = driveTrain;
         this.opMode = opMode;
-        leftMotorsWithEncoders.add(leftMotorWithEncoder);
-        rightMotorsWithEncoders.add(rightMotorWithEncoder);
-        this.wheelDiameter = wheelDiameter;
-        this.gearRatio = gearRatio;
-    }
-
-    public void addLeftMotor(DcMotor leftMotor)
-    {
-        leftMotors.add(leftMotor);
-    }
-
-    public void addLeftMotorWithEncoder(DcMotor leftMotor)
-    {
-        leftMotorsWithEncoders.add(leftMotor);
-    }
-
-    public void addRightMotor(DcMotor rightMotor)
-    {
-        rightMotors.add(rightMotor);
-    }
-
-    public void addRightMotorWithEncoder(DcMotor rightMotor)
-    {
-        rightMotorsWithEncoders.add(rightMotor);
     }
 
     @SuppressLint("Assert")
@@ -103,59 +57,11 @@ public class pMotor
         checkMotorsFrequency = frequency;
     }
 
-    // function used to stop the drive train for the next movement, pausing
-    // for one second.
-    private void haltDrive()
-    {
-        for (DcMotor motor : leftMotorsWithEncoders)
-        {
-            motor.setPower(0);
-        }
-
-        for (DcMotor motor : rightMotorsWithEncoders)
-        {
-            motor.setPower(0);
-        }
-
-        for (DcMotor motor : leftMotors)
-        {
-            motor.setPower(0);
-        }
-
-        for (DcMotor motor : rightMotors)
-        {
-            motor.setPower(0);
-        }
-    }
-
-    private void setPowers(double leftSpeed, double rightSpeed)
-    {
-        for (DcMotor motor : leftMotorsWithEncoders)
-        {
-            motor.setPower(leftSpeed);
-        }
-
-        for (DcMotor motor : rightMotorsWithEncoders)
-        {
-            motor.setPower(rightSpeed);
-        }
-
-        for (DcMotor motor : leftMotors)
-        {
-            motor.setPower(leftSpeed);
-        }
-
-        for (DcMotor motor : rightMotors)
-        {
-            motor.setPower(rightSpeed);
-        }
-    }
-
     private boolean checkIsTargetReached()
     {
         boolean targetIsReached = false;
 
-        for (DcMotor motor : leftMotorsWithEncoders)
+        for (DcMotor motor : driveTrain.getLeftMotorsWithEncoders())
         {
             if (Math.abs(leftEncoderTarget - motor.getCurrentPosition()) <
                     leftEncoderCountThreshold)
@@ -164,7 +70,7 @@ public class pMotor
             }
         }
 
-        for (DcMotor motor : rightMotorsWithEncoders)
+        for (DcMotor motor : driveTrain.getRightMotorsWithEncoders())
         {
             if (Math.abs(rightEncoderTarget - motor.getCurrentPosition()) <
                     rightEncoderCountThreshold)
@@ -181,7 +87,7 @@ public class pMotor
     {
         boolean isStallDetected = false;
 
-        for (DcMotor motor : leftMotorsWithEncoders)
+        for (DcMotor motor : driveTrain.getLeftMotorsWithEncoders())
         {
             if (Math.abs(previousLeftCounts - motor.getCurrentPosition()) <=
                     leftEncoderCountThreshold)
@@ -190,7 +96,7 @@ public class pMotor
             }
         }
 
-        for (DcMotor motor : rightMotorsWithEncoders)
+        for (DcMotor motor : driveTrain.getRightMotorsWithEncoders())
         {
             if (Math.abs(previousRightCounts - motor.getCurrentPosition()) <=
                     rightEncoderCountThreshold)
@@ -211,7 +117,7 @@ public class pMotor
 
         while (checkIsTargetReached())
         {
-            setPowers(leftSpeed, rightSpeed);
+            driveTrain.setPowers(leftSpeed, rightSpeed);
 
             long elapsedTime = System.currentTimeMillis() - previousTime;
 
@@ -237,7 +143,7 @@ public class pMotor
             previousTime = System.currentTimeMillis();
         }
 
-        haltDrive();
+        driveTrain.haltDrive();
     }
 
     private void calculateThreshold(double speed)
@@ -257,7 +163,7 @@ public class pMotor
      * Moves the robot straight forward or backward.
      * <p/>
      * The distance argument will be in whichever units the wheelDiameter
-     * parameter was in when you constructed pMotor.
+     * parameter was in when you constructed your DriveTrain object.
      * The distance argument should be positive or negative depending on the
      * direction you want the robot to travel. A positive distance should
      * make the robot go forward.
@@ -268,7 +174,7 @@ public class pMotor
      * If the distance target cannot be reached, a MotorStallException exception
      * is thrown.
      *
-     * @param distance The distance to move forward or backward.
+     * @param distance The distance in inches to move forward or backward.
      * @param speed    The speed at which to move.
      * @throws MotorStallException
      */
@@ -279,12 +185,8 @@ public class pMotor
 
         leftSpeed = Math.signum(distance) * speed;
         rightSpeed = Math.signum(distance) * speed;
-        leftEncoderTarget = Math.round(
-                ((distance / (Math.PI * wheelDiameter)) * gearRatio) /
-                        encoderCountsPerDriverGearRotation);
-        rightEncoderTarget = Math.round(
-                ((distance / (Math.PI * wheelDiameter)) * gearRatio) /
-                        encoderCountsPerDriverGearRotation);
+        leftEncoderTarget = driveTrain.convertInchesToEncoderCounts(distance);
+        rightEncoderTarget = driveTrain.convertInchesToEncoderCounts(distance);
 
         // For the Techno Warriors static settings, this is a bit redundant,
         // but I wanted to follow the intent of the function.

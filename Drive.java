@@ -63,15 +63,16 @@ public class Drive
         this.minSpeed = minSpeed;
     }
 
-    public void tank_drive(DcMotor leftDrive, DcMotor rightDrive)
+    public void tank_drive(DriveTrain driveTrain)
     {
-        opMode.telemetry.addData("maxMotorSpeed", "max speed: " + String.format("%.2f", maxSpeed));
+        opMode.telemetry.addData("maxMotorSpeed", "max speed: " +
+                String.format("%.2f", maxSpeed));
 
         float left = -opMode.gamepad1.left_stick_y;
         float right = -opMode.gamepad1.right_stick_y;
 
-        opMode.telemetry.addData("left org pwr", "original left pwr: "
-                + String.format("%.2f", left));
+        opMode.telemetry.addData("left org pwr", "original left pwr: " +
+                String.format("%.2f", left));
 
         if (opMode.gamepad1.left_stick_y != 0)
         {
@@ -85,9 +86,9 @@ public class Drive
                     ((Math.pow(right, 2) * (maxSpeed - minSpeed)) + minSpeed));
         }
 
-        opMode.telemetry.addData("left fnl pwr", "final left pwr: " + String.format("%.2f", left));
+        opMode.telemetry.addData("left fnl pwr", "final left pwr: " +
+                String.format("%.2f", left));
 
-        rightDrive.setPower(right);
-        leftDrive.setPower(left);
+        driveTrain.setPowers(left, right);
     }
 }
