@@ -10,19 +10,22 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 public class Drive
 {
     private OpMode opMode;
+    DriveTrain driveTrain;
     private float joystickDeadzone = 0.2f;
     private float maxSpeed = 1.0f;
     private float minSpeed = 0.1f;
 
-    public Drive(OpMode opMode)
+    public Drive(OpMode opMode, DriveTrain driveTrain)
     {
         this.opMode = opMode;
+        this.driveTrain = driveTrain;
         construct();
     }
 
-    public Drive(OpMode opMode, float joystickDeadzone)
+    public Drive(OpMode opMode, DriveTrain driveTrain, float joystickDeadzone)
     {
         this.opMode = opMode;
+        this.driveTrain = driveTrain;
         this.joystickDeadzone = joystickDeadzone;
         construct();
     }
@@ -63,7 +66,7 @@ public class Drive
         this.minSpeed = minSpeed;
     }
 
-    public void tank_drive(DriveTrain driveTrain)
+    public void tank_drive()
     {
         opMode.telemetry.addData("maxMotorSpeed", "max speed: " +
                 String.format("%.2f", maxSpeed));
