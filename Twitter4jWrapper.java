@@ -1,4 +1,4 @@
-package com.jacobamason.FTCRC_Extensions;
+package com.FTC3486.FTCRC_Extensions;
 
 import twitter4j.Status;
 import twitter4j.Twitter;

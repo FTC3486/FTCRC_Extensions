@@ -1,4 +1,4 @@
-package com.jacobamason.FTCRC_Extensions;
+package com.FTC3486.FTCRC_Extensions;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
