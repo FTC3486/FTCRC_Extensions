@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 /**
  * Created by Jacob on 7/12/2015.
  */
-public class Drive
+public class Driver
 {
     private OpMode opMode;
     DriveTrain driveTrain;
@@ -15,14 +15,14 @@ public class Drive
     private float maxSpeed = 1.0f;
     private float minSpeed = 0.1f;
 
-    public Drive(OpMode opMode, DriveTrain driveTrain)
+    public Driver(OpMode opMode, DriveTrain driveTrain)
     {
         this.opMode = opMode;
         this.driveTrain = driveTrain;
         construct();
     }
 
-    public Drive(OpMode opMode, DriveTrain driveTrain, float joystickDeadzone)
+    public Driver(OpMode opMode, DriveTrain driveTrain, float joystickDeadzone)
     {
         this.opMode = opMode;
         this.driveTrain = driveTrain;
