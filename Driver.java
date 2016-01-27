@@ -11,39 +11,18 @@ public class Driver
 {
     private OpMode opMode;
     DriveTrain driveTrain;
-    private float joystickDeadzone = 0.2f;
     private float maxSpeed = 1.0f;
     private float minSpeed = 0.1f;
+    public enum Direction
+    {
+        FORWARD,
+        BACKWARD
+    }
 
     public Driver(OpMode opMode, DriveTrain driveTrain)
     {
         this.opMode = opMode;
         this.driveTrain = driveTrain;
-        construct();
-    }
-
-    public Driver(OpMode opMode, DriveTrain driveTrain, float joystickDeadzone)
-    {
-        this.opMode = opMode;
-        this.driveTrain = driveTrain;
-        this.joystickDeadzone = joystickDeadzone;
-        construct();
-    }
-
-    private void construct()
-    {
-        opMode.gamepad1.setJoystickDeadzone(joystickDeadzone);
-        opMode.gamepad2.setJoystickDeadzone(joystickDeadzone);
-    }
-
-    public float getJoystickDeadzone()
-    {
-        return joystickDeadzone;
-    }
-
-    public void setJoystickDeadzone(float joystickDeadzone)
-    {
-        this.joystickDeadzone = joystickDeadzone;
     }
 
     public float getMaxSpeed()
@@ -66,32 +45,28 @@ public class Driver
         this.minSpeed = minSpeed;
     }
 
-    public void tank_drive()
+    public void tank_drive(Gamepad gamepad, Direction direction)
     {
-        opMode.telemetry.addData("maxMotorSpeed", "max speed: " +
-                String.format("%.2f", maxSpeed));
+        double left = get_scaled_power_from_gamepad_stick(gamepad.left_stick_y);
+        double right = get_scaled_power_from_gamepad_stick(gamepad.right_stick_y);
 
-        float left = -opMode.gamepad1.left_stick_y;
-        float right = -opMode.gamepad1.right_stick_y;
-
-        opMode.telemetry.addData("left org pwr", "original left pwr: " +
-                String.format("%.2f", left));
-
-        if (opMode.gamepad1.left_stick_y != 0)
+        if(direction == Direction.FORWARD)
         {
-            left = (float) (Math.signum(left) *
-                    ((Math.pow(left, 2) * (maxSpeed - minSpeed)) + minSpeed));
+            driveTrain.setPowers(left, right);
         }
-
-        if (opMode.gamepad1.right_stick_y != 0)
+        else
         {
-            right = (float) (Math.signum(right) *
-                    ((Math.pow(right, 2) * (maxSpeed - minSpeed)) + minSpeed));
+            driveTrain.setPowers(-right, -left);
         }
+    }
 
-        opMode.telemetry.addData("left fnl pwr", "final left pwr: " +
-                String.format("%.2f", left));
+    private double get_scaled_power_from_gamepad_stick(float stick)
+    {
+        return -(Math.signum(stick) * ((Math.pow(stick, 2) * (maxSpeed - minSpeed)) + minSpeed));
+    }
 
-        driveTrain.setPowers(left, right);
+    @Override
+    public String toString() {
+        return "max speed: " + String.format("%.2f", maxSpeed) + "\n" + driveTrain;
     }
 }
