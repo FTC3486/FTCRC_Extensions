@@ -1,17 +1,22 @@
 package com.FTC3486.FTCRC_Extensions;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import java.util.LinkedList;
 
 public class DriveTrain
 {
+    private ElapsedTime timer = new ElapsedTime(2) ;
+
     private double wheelDiameter;
     private double gearRatio;
     private int encoderCountsPerDriverGearRotation;
     private LinkedList<DcMotor> leftMotors;
     private LinkedList<DcMotor> rightMotors;
-    private LinkedList<DcMotor> leftMotorsWithEncoders;
-    private LinkedList<DcMotor> rightMotorsWithEncoders;
+    private LinkedList<ExtendedDcMotor> leftMotorsWithEncoders;
+    private LinkedList<ExtendedDcMotor> rightMotorsWithEncoders;
     private double leftSpeed;
     private double rightSpeed;
 
@@ -34,10 +39,10 @@ public class DriveTrain
         private int encoderCountsPerDriverGearRotation = 1120;
         private final LinkedList<DcMotor> leftMotors = new LinkedList<DcMotor>();
         private final LinkedList<DcMotor> rightMotors = new LinkedList<DcMotor>();
-        private final LinkedList<DcMotor> leftMotorsWithEncoders =
-                new LinkedList<DcMotor>();
-        private final LinkedList<DcMotor> rightMotorsWithEncoders =
-                new LinkedList<DcMotor>();
+        private final LinkedList<ExtendedDcMotor> leftMotorsWithEncoders =
+                new LinkedList<>();
+        private final LinkedList<ExtendedDcMotor> rightMotorsWithEncoders =
+                new LinkedList<>();
 
         public Builder setWheelDiameter(double wheelDiameter)
         {
@@ -63,7 +68,7 @@ public class DriveTrain
             return this;
         }
 
-        public Builder addLeftMotorWithEncoder(DcMotor leftMotor)
+        public Builder addLeftMotorWithEncoder(ExtendedDcMotor leftMotor)
         {
             leftMotorsWithEncoders.add(leftMotor);
             return this;
@@ -75,7 +80,7 @@ public class DriveTrain
             return this;
         }
 
-        public Builder addRightMotorWithEncoder(DcMotor rightMotor)
+        public Builder addRightMotorWithEncoder(ExtendedDcMotor rightMotor)
         {
             rightMotorsWithEncoders.add(rightMotor);
             return this;
@@ -87,24 +92,24 @@ public class DriveTrain
         }
     }
 
-    protected LinkedList<DcMotor> getLeftMotorsWithEncoders()
+    protected LinkedList<ExtendedDcMotor> getLeftMotorsWithEncoders()
     {
         return leftMotorsWithEncoders;
     }
 
-    protected LinkedList<DcMotor> getRightMotorsWithEncoders()
+    protected LinkedList<ExtendedDcMotor> getRightMotorsWithEncoders()
     {
         return rightMotorsWithEncoders;
     }
 
     protected void haltDrive()
     {
-        for (DcMotor motor : leftMotorsWithEncoders)
+        for (ExtendedDcMotor motor : leftMotorsWithEncoders)
         {
             motor.setPower(0);
         }
 
-        for (DcMotor motor : rightMotorsWithEncoders)
+        for (ExtendedDcMotor motor : rightMotorsWithEncoders)
         {
             motor.setPower(0);
         }
@@ -150,6 +155,41 @@ public class DriveTrain
     {
         return Math.round(((distance / (Math.PI * wheelDiameter)) * gearRatio) /
                                   encoderCountsPerDriverGearRotation);
+    }
+
+    public double getLeftEncoderCount() {
+        double sumValue = 0;
+        double encoderAverage = 0;
+
+        for(ExtendedDcMotor leftMotorWithEncoder: leftMotorsWithEncoders) {
+            sumValue += leftMotorWithEncoder.getCurrentPosition();
+        }
+
+        sumValue = sumValue / (leftMotorsWithEncoders.size());
+        return  sumValue;
+    }
+
+    public double getRightEncoderCount() {
+        double sumValue = 0;
+
+        for(ExtendedDcMotor rightMotorWithEncoder: rightMotorsWithEncoders) {
+            sumValue += rightMotorWithEncoder.getCurrentPosition();
+        }
+
+        sumValue = sumValue / leftMotorsWithEncoders.size();
+        return  sumValue;
+    }
+
+    public void resetMotorEncoders() {
+        for(ExtendedDcMotor leftMotorWithEncoders: leftMotorsWithEncoders) {
+            leftMotorWithEncoders.changeMode("RESET_ENCODERS");
+            leftMotorWithEncoders.changeMode("RUN_USING_ENCODERS");
+        }
+
+        for(ExtendedDcMotor rightMotorWithEncoders: rightMotorsWithEncoders) {
+            rightMotorWithEncoders.changeMode("RESET_ENCODERS");
+            rightMotorWithEncoders.changeMode("RUN_USING_ENCODERS");
+        }
     }
 
     @Override
