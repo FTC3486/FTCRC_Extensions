@@ -8,25 +8,33 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 /**
  * Created by Matthew on 2/20/2016.
  */
-public class GyroscopeAutoDriver {
-    private LinearOpMode opMode;
-    private DriveTrain driveTrain;
+public class GyroscopeAutoDriver extends AutoDriver {
     private GyroSensor gyroSensor;
-    private ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+    private double power = 1.0;
+
+    // This stores the intended heading of the robot. Some turns might not completely stop on the
+    // correct heading, so reading the value from the gyro would result in accumulating drift (bad).
+    private int gyroTarget = 0;
 
     public GyroscopeAutoDriver(LinearOpMode linearOpMode, DriveTrain driveTrain, String gyroSensor,
                                HardwareMap hardwaremap) {
-        this.opMode = linearOpMode;
-        this.driveTrain = driveTrain;
+        super(linearOpMode, driveTrain);
         this.gyroSensor = hardwaremap.gyroSensor.get(gyroSensor);
     }
 
-    public void driveForwardtoEncoderCountWithCorrection(int encoderCount, double power,
-                                                         int gyroTarget) {
+    @Override
+    public AutoDriver set_power(double power) {
+        this.power = power;
+        return this;
+    }
+
+    @Override
+    public AutoDriver drive_forward(int encoderCounts) {
         driveTrain.resetMotorEncoders();
 
-        while (driveTrain.getLeftEncoderCount() < encoderCount && driveTrain.getRightEncoderCount()
-                < encoderCount && opMode.opModeIsActive()) {
+        while (driveTrain.getLeftEncoderCount() < encoderCounts &&
+               driveTrain.getRightEncoderCount() < encoderCounts &&
+               opMode.opModeIsActive()) {
             //opMode.telemetry.addData("Gyro Heading", gyroSensor.getHeading());
             if(gyroSensor.getHeading() < gyroTarget) {
                 driveTrain.setPowers(power, power - (0.75* power));
@@ -37,14 +45,18 @@ public class GyroscopeAutoDriver {
             }
         }
         driveTrain.haltDrive();
+
+        return this;
     }
 
-    public void driveBackwardtoEncoderCountWithCorrection(int encoderCount, double power,
-                                                          int gyroTarget) {
+    @Override
+    public AutoDriver drive_backward(int encoderCounts) {
+        gyroSensor.resetZAxisIntegrator();
         driveTrain.resetMotorEncoders();
 
-        while (driveTrain.getLeftEncoderCount() > encoderCount && driveTrain.getRightEncoderCount()
-                > encoderCount && opMode.opModeIsActive()) {
+        while (driveTrain.getLeftEncoderCount() > encoderCounts &&
+               driveTrain.getRightEncoderCount() > encoderCounts &&
+               opMode.opModeIsActive()) {
             //opMode.telemetry.addData("Gyro Heading", gyroSensor.getHeading());
             if(gyroSensor.getHeading() < gyroTarget) {
                 driveTrain.setPowers(power, power + (0.75* power));
@@ -55,55 +67,66 @@ public class GyroscopeAutoDriver {
             }
         }
         driveTrain.haltDrive();
+
+        return null;
     }
 
-    public void driveBackwardtoEncoderCount(int encoderCount, double power) {
-        driveTrain.resetMotorEncoders();
-        driveTrain.setPowers(power, power);
-        while (driveTrain.getLeftEncoderCount() > encoderCount && driveTrain.getRightEncoderCount()
-                > encoderCount && opMode.opModeIsActive()) {}
+    @Override
+    public AutoDriver turn_clockwise(int degrees) {
+        set_gyro_target(degrees);
+        driveTrain.setPowers(power, -power);
+
+        while(gyroSensor.getHeading() > (gyroTarget - 11) && opMode.opModeIsActive()) {
+            //opMode.telemetry.addData("Gyro Heading", gyroSensor.getHeading());
+            Thread.yield();
+        }
+        while(gyroSensor.getHeading() < (gyroTarget - 11) && opMode.opModeIsActive()) {
+            //opMode.telemetry.addData("Gyro Heading", gyroSensor.getHeading());
+            Thread.yield();
+        }
         driveTrain.haltDrive();
+
+        return this;
     }
 
+    @Override
+    public AutoDriver turn_counterclockwise(int degrees) {
+        set_gyro_target(degrees);
+        driveTrain.setPowers(-power, power);
 
-    public void gyroTurn(String direction, int gyroHeading, double power) {
-        switch(direction) {
-            default:
-            case "CLOCKWISE":
-                driveTrain.setPowers(power, -power);
-
-                while(gyroSensor.getHeading() > (gyroHeading - 11) && opMode.opModeIsActive()) {
-                    //opMode.telemetry.addData("Gyro Heading", gyroSensor.getHeading());
-                }
-
-                while(gyroSensor.getHeading() < (gyroHeading - 11) && opMode.opModeIsActive()) {
-                    //opMode.telemetry.addData("Gyro Heading", gyroSensor.getHeading());
-                }
-
-                driveTrain.haltDrive();
-                break;
-
-            case "COUNTER_CLOCKWISE":
-                driveTrain.setPowers(-power, power);
-
-                while(gyroSensor.getHeading() < (gyroHeading + 11) && opMode.opModeIsActive()) {
-                    //opMode.telemetry.addData("Gyro Heading", gyroSensor.getHeading());
-                }
-
-                while(gyroSensor.getHeading() > (gyroHeading + 11) && opMode.opModeIsActive()) {
-                    //opMode.telemetry.addData("Gyro Heading", gyroSensor.getHeading());
-                }
-
-                driveTrain.haltDrive();
-                break;
+        while(gyroSensor.getHeading() < (gyroTarget + 11) && opMode.opModeIsActive()) {
+            //opMode.telemetry.addData("Gyro Heading", gyroSensor.getHeading());
+            Thread.yield();
         }
 
+        while(gyroSensor.getHeading() > (gyroTarget + 11) && opMode.opModeIsActive()) {
+            //opMode.telemetry.addData("Gyro Heading", gyroSensor.getHeading());
+            Thread.yield();
+        }
+        driveTrain.haltDrive();
+
+        return this;
     }
 
-    public void waitMilliseconds(int waitTime) throws InterruptedException{
-        timer.reset();
-        while(timer.time() < waitTime && opMode.opModeIsActive()) { opMode.sleep(1); }
+
+    /**
+     * When you call .getHeading() for a gyro object, you get some integer between 0 and 359. This
+     * isn't helpful at all when trying to determine if the robot is veering left or right of the
+     * intended target because of the edge cases. If the gyro is on the 0 mark, all values on the
+     * gyro will be considered "greater than" it. This makes basic comparison really tough.
+     * @return Gyro heading as a signed integer relative to gyroTarget
+     */
+    private int get_gyro_drift() {
+        throw new UnsupportedOperationException("Not implemented");
     }
 
+    private void set_gyro_target(int degrees) {
+        gyroTarget += degrees;
+        if (gyroTarget < 0) {
+            gyroTarget += 360;
+        } else if (gyroTarget > 359) {
+            gyroTarget -= 360;
+        }
+    }
 }
 
