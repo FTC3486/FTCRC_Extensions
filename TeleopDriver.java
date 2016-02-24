@@ -7,10 +7,10 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 /**
  * Created by Jacob on 7/12/2015.
  */
-public class Driver
+public class TeleopDriver
 {
     private OpMode opMode;
-    DriveTrain driveTrain;
+    private DriveTrain driveTrain;
     private float maxSpeed = 1.0f;
     private float minSpeed = 0.1f;
     public enum Direction
@@ -19,7 +19,7 @@ public class Driver
         BACKWARD
     }
 
-    public Driver(OpMode opMode, DriveTrain driveTrain)
+    public TeleopDriver(OpMode opMode, DriveTrain driveTrain)
     {
         this.opMode = opMode;
         this.driveTrain = driveTrain;
