@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class AutoDriver {
     private LinearOpMode opMode;
     private DriveTrain driveTrain;
-    private GyroSensor gyroSensor ;
+    private GyroSensor gyroSensor;
     private ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
     public AutoDriver(LinearOpMode linearOpMode, DriveTrain driveTrain, String gyroSensor,
