@@ -2,7 +2,6 @@ package com.FTC3486.FTCRC_Extensions;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
  * Created by Matthew on 2/20/2016.
