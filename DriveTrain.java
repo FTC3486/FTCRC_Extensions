@@ -8,8 +8,6 @@ import java.util.LinkedList;
 
 public class DriveTrain
 {
-    private ElapsedTime timer = new ElapsedTime(2) ;
-
     private double wheelDiameter;
     private double gearRatio;
     private int encoderCountsPerDriverGearRotation;
@@ -40,9 +38,9 @@ public class DriveTrain
         private final LinkedList<DcMotor> leftMotors = new LinkedList<DcMotor>();
         private final LinkedList<DcMotor> rightMotors = new LinkedList<DcMotor>();
         private final LinkedList<ExtendedDcMotor> leftMotorsWithEncoders =
-                new LinkedList<>();
+                new LinkedList<ExtendedDcMotor>();
         private final LinkedList<ExtendedDcMotor> rightMotorsWithEncoders =
-                new LinkedList<>();
+                new LinkedList<ExtendedDcMotor>();
 
         public Builder setWheelDiameter(double wheelDiameter)
         {
@@ -159,14 +157,13 @@ public class DriveTrain
 
     protected double getLeftEncoderCount() {
         double sumValue = 0;
-        double encoderAverage = 0;
 
         for(ExtendedDcMotor leftMotorWithEncoder: leftMotorsWithEncoders) {
             sumValue += leftMotorWithEncoder.getCurrentPosition();
         }
 
         sumValue = sumValue / (leftMotorsWithEncoders.size());
-        return  sumValue;
+        return sumValue;
     }
 
     protected double getRightEncoderCount() {
@@ -177,7 +174,7 @@ public class DriveTrain
         }
 
         sumValue = sumValue / leftMotorsWithEncoders.size();
-        return  sumValue;
+        return sumValue;
     }
 
     protected void resetMotorEncoders() {
