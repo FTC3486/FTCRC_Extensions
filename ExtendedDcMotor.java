@@ -16,25 +16,35 @@ public class ExtendedDcMotor extends DcMotor {
         switch (runMode) {
             case "RESET_ENCODERS":
                 this.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-                while(this.getMode() != DcMotorController.RunMode.RESET_ENCODERS) { }
+                while(this.getMode() != DcMotorController.RunMode.RESET_ENCODERS) {
+                    Thread.yield();
+                }
 
-                while(this.getCurrentPosition() != 0) { }
+                while(this.getCurrentPosition() != 0) {
+                    Thread.yield();
+                }
                 break;
 
             case "RUN_USING_ENCODERS":
                 this.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-                while(this.getMode() != DcMotorController.RunMode.RUN_USING_ENCODERS) { }
+                while(this.getMode() != DcMotorController.RunMode.RUN_USING_ENCODERS) {
+                    Thread.yield();
+                }
                 break;
 
             case "RUN_TO_POSITION":
                 this.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
-                while(this.getMode() != DcMotorController.RunMode.RUN_TO_POSITION) { }
+                while(this.getMode() != DcMotorController.RunMode.RUN_TO_POSITION) {
+                    Thread.yield();
+                }
                 break;
 
             case "RUN_WITHOUT_ENCODERS":
             default:
                 this.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-                while(this.getMode() != DcMotorController.RunMode.RUN_WITHOUT_ENCODERS) { }
+                while(this.getMode() != DcMotorController.RunMode.RUN_WITHOUT_ENCODERS) {
+                    Thread.yield();
+                }
                 break;
         }
     }
