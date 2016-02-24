@@ -157,7 +157,7 @@ public class DriveTrain
                                   encoderCountsPerDriverGearRotation);
     }
 
-    public double getLeftEncoderCount() {
+    protected double getLeftEncoderCount() {
         double sumValue = 0;
         double encoderAverage = 0;
 
@@ -169,7 +169,7 @@ public class DriveTrain
         return  sumValue;
     }
 
-    public double getRightEncoderCount() {
+    protected double getRightEncoderCount() {
         double sumValue = 0;
 
         for(ExtendedDcMotor rightMotorWithEncoder: rightMotorsWithEncoders) {
@@ -180,7 +180,7 @@ public class DriveTrain
         return  sumValue;
     }
 
-    public void resetMotorEncoders() {
+    protected void resetMotorEncoders() {
         for(ExtendedDcMotor leftMotorWithEncoders: leftMotorsWithEncoders) {
             leftMotorWithEncoders.changeMode("RESET_ENCODERS");
             leftMotorWithEncoders.changeMode("RUN_USING_ENCODERS");
