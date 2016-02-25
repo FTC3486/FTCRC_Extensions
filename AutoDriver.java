@@ -21,8 +21,8 @@ public abstract class AutoDriver {
         this.power = power;
     }
 
-    abstract AutoDriver drive_forward(int encoderCounts);
-    abstract AutoDriver drive_backward(int encoderCounts);
-    abstract AutoDriver turn_clockwise(int degrees);
-    abstract AutoDriver turn_counterclockwise(int degrees);
+    public abstract AutoDriver drive_forward(int encoderCounts);
+    public abstract AutoDriver drive_backward(int encoderCounts);
+    public abstract AutoDriver turn_clockwise(int degrees);
+    public abstract AutoDriver turn_counterclockwise(int degrees);
 }
