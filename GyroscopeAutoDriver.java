@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 public class GyroscopeAutoDriver extends AutoDriver {
     private GyroSensor gyroSensor;
-    private double power = 1.0;
 
     // This stores the intended heading of the robot. Some turns might not completely stop on the
     // correct heading, so reading the value from the gyro would result in accumulating drift (bad).
@@ -23,23 +22,18 @@ public class GyroscopeAutoDriver extends AutoDriver {
     }
 
     @Override
-    public AutoDriver set_power(double power) {
-        this.power = power;
-        return this;
-    }
-
-    @Override
     public AutoDriver drive_forward(int encoderCounts) {
         driveTrain.resetMotorEncoders();
+        gyroSensor.resetZAxisIntegrator();
 
         while (driveTrain.getLeftEncoderCount() < encoderCounts &&
                driveTrain.getRightEncoderCount() < encoderCounts &&
                opMode.opModeIsActive()) {
             //opMode.telemetry.addData("Gyro Heading", gyroSensor.getHeading());
-            if(gyroSensor.getHeading() < gyroTarget) {
-                driveTrain.setPowers(power, power - (0.75* power));
-            } else if(gyroSensor.getHeading() > gyroTarget) {
-                driveTrain.setPowers(power - (0.75 * power) , power);
+            if (gyroSensor.getHeading() >=180 && gyroSensor.getHeading() <=357) {
+                driveTrain.setPowers(power, power - (0.75 * power));
+            } else if (gyroSensor.getHeading() >= 2 && gyroSensor.getHeading() <= 179) {
+                driveTrain.setPowers(power - (0.75 * power), power);
             } else {
                 driveTrain.setPowers(power, power);
             }
@@ -51,21 +45,22 @@ public class GyroscopeAutoDriver extends AutoDriver {
 
     @Override
     public AutoDriver drive_backward(int encoderCounts) {
-        gyroSensor.resetZAxisIntegrator();
         driveTrain.resetMotorEncoders();
+        gyroSensor.resetZAxisIntegrator();
 
         while (driveTrain.getLeftEncoderCount() > encoderCounts &&
-               driveTrain.getRightEncoderCount() > encoderCounts &&
-               opMode.opModeIsActive()) {
+                driveTrain.getRightEncoderCount() > encoderCounts &&
+                opMode.opModeIsActive()) {
             //opMode.telemetry.addData("Gyro Heading", gyroSensor.getHeading());
-            if(gyroSensor.getHeading() < gyroTarget) {
-                driveTrain.setPowers(power, power + (0.75* power));
-            } else if(gyroSensor.getHeading() > gyroTarget) {
-                driveTrain.setPowers(power + (0.75 * power) , power);
+            if (gyroSensor.getHeading() >=180 && gyroSensor.getHeading() <=354) {
+                driveTrain.setPowers(power, power + (0.75 * power) );
+            } else if (gyroSensor.getHeading() >= 5 && gyroSensor.getHeading() <= 179) {
+                driveTrain.setPowers(power + (0.75 * power), power);
             } else {
                 driveTrain.setPowers(power, power);
             }
         }
+
         driveTrain.haltDrive();
 
         return null;
@@ -76,13 +71,13 @@ public class GyroscopeAutoDriver extends AutoDriver {
         set_gyro_target(degrees);
         driveTrain.setPowers(power, -power);
 
-        while(gyroSensor.getHeading() > (gyroTarget - 11) && opMode.opModeIsActive()) {
+        while(gyroSensor.getHeading() > (gyroTarget - 18) && opMode.opModeIsActive()) {
             //opMode.telemetry.addData("Gyro Heading", gyroSensor.getHeading());
-            Thread.yield();
+            //Thread.yield();
         }
-        while(gyroSensor.getHeading() < (gyroTarget - 11) && opMode.opModeIsActive()) {
+        while(gyroSensor.getHeading() < (gyroTarget + 18) && opMode.opModeIsActive()) {
             //opMode.telemetry.addData("Gyro Heading", gyroSensor.getHeading());
-            Thread.yield();
+            //Thread.yield();
         }
         driveTrain.haltDrive();
 
@@ -94,14 +89,14 @@ public class GyroscopeAutoDriver extends AutoDriver {
         set_gyro_target(degrees);
         driveTrain.setPowers(-power, power);
 
-        while(gyroSensor.getHeading() < (gyroTarget + 11) && opMode.opModeIsActive()) {
+        while(gyroSensor.getHeading() < (gyroTarget - 18) && opMode.opModeIsActive()) {
             //opMode.telemetry.addData("Gyro Heading", gyroSensor.getHeading());
-            Thread.yield();
+            //Thread.yield();
         }
 
-        while(gyroSensor.getHeading() > (gyroTarget + 11) && opMode.opModeIsActive()) {
+        while(gyroSensor.getHeading() > (gyroTarget + 18) && opMode.opModeIsActive()) {
             //opMode.telemetry.addData("Gyro Heading", gyroSensor.getHeading());
-            Thread.yield();
+            // Thread.yield();
         }
         driveTrain.haltDrive();
 
