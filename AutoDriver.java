@@ -3,7 +3,7 @@ package com.FTC3486.FTCRC_Extensions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 /**
- * Created by developer on 2/24/16.
+ * Created by Jacob on 2/24/16.
  */
 public abstract class AutoDriver {
     protected LinearOpMode opMode;
