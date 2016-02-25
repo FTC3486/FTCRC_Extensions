@@ -18,39 +18,15 @@ public class ExtendedDcMotor extends DcMotor {
 
     @Override
     public void setMode(DcMotorController.RunMode mode) {
-        switch (mode) {
-            case RESET_ENCODERS:
-                super.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-                while(super.getMode() != DcMotorController.RunMode.RESET_ENCODERS && opMode.opModeIsActive()) {
+        super.setMode(mode);
+        while(super.getMode() != mode && opMode.opModeIsActive()) {
 
-                }
+        }
 
-                while(super.getCurrentPosition() != 0 && opMode.opModeIsActive()) {
-                    Thread.yield();
-                }
-                break;
+        if (mode == DcMotorController.RunMode.RESET_ENCODERS) {
+            while (super.getCurrentPosition() != 0 && opMode.opModeIsActive()) {
 
-            case RUN_USING_ENCODERS:
-                super.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-                while(super.getMode() != DcMotorController.RunMode.RUN_USING_ENCODERS && opMode.opModeIsActive()) {
-                    Thread.yield();
-                }
-                break;
-
-            case RUN_TO_POSITION:
-                super.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
-                while(super.getMode() != DcMotorController.RunMode.RUN_TO_POSITION && opMode.opModeIsActive()) {
-                    Thread.yield();
-                }
-                break;
-
-            case RUN_WITHOUT_ENCODERS:
-            default:
-                super.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-                while(super.getMode() != DcMotorController.RunMode.RUN_WITHOUT_ENCODERS && opMode.opModeIsActive()) {
-                    Thread.yield();
-                }
-                break;
+            }
         }
     }
 }
