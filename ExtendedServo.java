@@ -1,12 +1,7 @@
 package com.FTC3486.FTCRC_Extensions;
 
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.util.Range;
-
-import org.apache.http.impl.conn.ProxySelectorRoutePlanner;
-
-import java.util.LinkedList;
 
 /**
  * Created by Jacob on 11/28/2015.

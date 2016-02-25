@@ -1,7 +1,6 @@
 package com.FTC3486.FTCRC_Extensions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * Created by developer on 2/24/16.
