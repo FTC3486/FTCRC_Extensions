@@ -1,5 +1,7 @@
 package com.FTC3486.FTCRC_Extensions;
 
+import android.annotation.SuppressLint;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 /**
@@ -16,7 +18,9 @@ public abstract class AutoDriver {
         this.driveTrain = driveTrain;
     }
 
+    @SuppressLint("Assert")
     public void set_power(double power) {
+        assert power > 0;  // the power should always be positive.
         this.power = power;
     }
 

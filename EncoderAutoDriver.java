@@ -19,7 +19,7 @@ public class EncoderAutoDriver extends AutoDriver {
     @Override
     public AutoDriver drive_backward(int encoderCount) {
         driveTrain.resetMotorEncoders();
-        driveTrain.setPowers(power, power);
+        driveTrain.setPowers(-power, -power);
         while (driveTrain.getLeftEncoderCount() > encoderCount &&
                driveTrain.getRightEncoderCount() > encoderCount &&
                opMode.opModeIsActive()) {}
