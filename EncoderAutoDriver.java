@@ -1,15 +1,13 @@
 package com.FTC3486.FTCRC_Extensions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
  * Created by developer on 2/24/16.
  */
 public class EncoderAutoDriver extends AutoDriver {
 
-    public EncoderAutoDriver(LinearOpMode linearOpMode, DriveTrain driveTrain,
-                             HardwareMap hardwaremap) {
+    public EncoderAutoDriver(LinearOpMode linearOpMode, DriveTrain driveTrain) {
         super(linearOpMode, driveTrain);
     }
 
@@ -22,8 +20,9 @@ public class EncoderAutoDriver extends AutoDriver {
     public AutoDriver drive_backward(int encoderCount) {
         driveTrain.resetMotorEncoders();
         driveTrain.setPowers(power, power);
-        while (driveTrain.getLeftEncoderCount() > encoderCount && driveTrain.getRightEncoderCount()
-                > encoderCount && opMode.opModeIsActive()) {}
+        while (driveTrain.getLeftEncoderCount() > encoderCount &&
+               driveTrain.getRightEncoderCount() > encoderCount &&
+               opMode.opModeIsActive()) {}
         driveTrain.haltDrive();
         return null;
     }
