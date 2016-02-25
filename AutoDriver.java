@@ -9,19 +9,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public abstract class AutoDriver {
     protected LinearOpMode opMode;
     protected DriveTrain driveTrain;
-    protected ElapsedTime timer;
     protected double power = 1.0;
 
 
     public AutoDriver(LinearOpMode opMode, DriveTrain driveTrain) {
         this.opMode = opMode;
         this.driveTrain = driveTrain;
-        this.timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
-    }
-
-    public void waitMilliseconds(int waitTime) throws InterruptedException{
-        timer.reset();
-        while(timer.time() < waitTime && opMode.opModeIsActive()) { opMode.sleep(1); }
     }
 
     public void set_power(double power) {
