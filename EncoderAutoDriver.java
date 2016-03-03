@@ -12,7 +12,13 @@ public class EncoderAutoDriver extends AutoDriver {
     }
 
     @Override
-    public AutoDriver drive_forward(int inches) {
+    public AutoDriver drive_forward(int encoderCount) {
+        driveTrain.resetMotorEncoders();
+        driveTrain.setPowers(-power, -power);
+        while (driveTrain.getLeftEncoderCount() > encoderCount &&
+                driveTrain.getRightEncoderCount() > encoderCount &&
+                opMode.opModeIsActive()) {}
+        driveTrain.haltDrive();
         return null;
     }
 
@@ -28,12 +34,25 @@ public class EncoderAutoDriver extends AutoDriver {
     }
 
     @Override
-    public AutoDriver turn_clockwise(int degrees) {
+    public AutoDriver turn_clockwise(int encoderCount) {
+        driveTrain.resetMotorEncoders();
+        driveTrain.setPowers(power, -power);
+        while(driveTrain.getLeftEncoderCount() < encoderCount && opMode.opModeIsActive()) {
+            opMode.telemetry.addData("LeftMotorEncoders:", this.driveTrain.getLeftEncoderCount());
+        }
+        driveTrain.haltDrive();
         return null;
     }
 
     @Override
-    public AutoDriver turn_counterclockwise(int degrees) {
+    public AutoDriver turn_counterclockwise(int encoderCount) {
+        driveTrain.resetMotorEncoders();
+        driveTrain.setPowers(-power, power);
+        while(driveTrain.getRightEncoderCount() > -encoderCount && opMode.opModeIsActive()) {
+            opMode.telemetry.addData("RightMotorEncoders:", this.driveTrain.getRightEncoderCount());
+        }
+        driveTrain.haltDrive();
         return null;
     }
 }
+
