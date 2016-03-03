@@ -19,7 +19,7 @@ public class ExtendedDcMotor extends DcMotor {
     public void setMode(DcMotorController.RunMode mode) {
         super.setMode(mode);
         while(super.getMode() != mode && opMode.opModeIsActive()) {
-
+            this.opMode.telemetry.addData("Resetting Encoders", "In ExtendedDcMotor");
         }
 
         if (mode == DcMotorController.RunMode.RESET_ENCODERS) {
