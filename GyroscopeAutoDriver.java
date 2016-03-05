@@ -20,10 +20,9 @@ public class GyroscopeAutoDriver extends AutoDriver {
         return degrees % 360;
     }
 
-    private boolean gyro_is_between(int lowerBound, int upperBound) {
+    private boolean gyro_is_between(int heading, int lowerBound, int upperBound) {
         lowerBound = get_gyro_corrected_heading(lowerBound);
         upperBound = get_gyro_corrected_heading(upperBound);
-        int heading = gyroSensor.getHeading();
 
         if (lowerBound <= upperBound) {
             return heading >= lowerBound && heading <= upperBound;
@@ -34,83 +33,76 @@ public class GyroscopeAutoDriver extends AutoDriver {
     }
 
     @Override
-    public AutoDriver drive_forward(int encoderCounts) {
+    public AutoDriver drive_forward_implementation(int encoderCounts) {
         driveTrain.resetMotorEncoders();
         gyroSensor.resetZAxisIntegrator();
 
         while (driveTrain.getLeftEncoderCount() < encoderCounts &&
                driveTrain.getRightEncoderCount() < encoderCounts &&
                opMode.opModeIsActive()) {
-            //opMode.telemetry.addData("Gyro Heading", gyroSensor.getHeading());
-            if (gyro_is_between(180, 357)) {
-                driveTrain.setPowers(power, power - (0.75 * power));
-            } else if (gyro_is_between(2, 179)) {
-                driveTrain.setPowers(power - (0.75 * power), power);
+            int heading = gyroSensor.getHeading();
+            if (gyro_is_between(heading, 180, 357)) {
+                driveTrain.setPowers(power, 0.6*power);
+            } else if (gyro_is_between(heading, 2, 179)) {
+                driveTrain.setPowers(0.6*power, power);
             } else {
                 driveTrain.setPowers(power, power);
             }
-
         }
-        driveTrain.haltDrive();
-
         return this;
     }
 
     @Override
-    public AutoDriver drive_backward(int encoderCounts) {
+    public AutoDriver drive_backward_implementation(int encoderCounts) {
         driveTrain.resetMotorEncoders();
         gyroSensor.resetZAxisIntegrator();
 
         while (driveTrain.getLeftEncoderCount() > encoderCounts &&
                 driveTrain.getRightEncoderCount() > encoderCounts &&
                 opMode.opModeIsActive()) {
-            //opMode.telemetry.addData("Gyro Heading", gyroSensor.getHeading());
-            if (gyro_is_between(180, 357)) {
-                driveTrain.setPowers(-power + (0.75 * power), -power );
-            } else if (gyro_is_between(2, 179)) {
-                driveTrain.setPowers(-power, -power + (0.75 * power));
+            int heading = gyroSensor.getHeading();
+            if (gyro_is_between(heading, 180, 357)) {
+                driveTrain.setPowers(-0.6*power, -power);
+            } else if (gyro_is_between(heading, 2, 179)) {
+                driveTrain.setPowers(-power, -0.6*power);
             } else {
                 driveTrain.setPowers(-power, -power);
             }
         }
-        driveTrain.haltDrive();
-
-        return null;
-    }
-
-    @Override
-    public AutoDriver turn_clockwise(int degrees) {
-        gyroSensor.resetZAxisIntegrator();
-
-        driveTrain.setPowers(power, -power);
-        while(gyro_is_between(-10, degrees) && opMode.opModeIsActive()) {
-            //opMode.telemetry.addData("Gyro Heading", gyroSensor.getHeading());
-        }
-
-        driveTrain.setPowers(-power/2, power/2);
-        while(gyro_is_between(degrees+5, degrees-10) && opMode.opModeIsActive()) {
-            //opMode.telemetry.addData("Gyro Heading", gyroSensor.getHeading());
-        }
-        driveTrain.haltDrive();
-
         return this;
     }
 
     @Override
-    public AutoDriver turn_counterclockwise(int degrees) {
+    public AutoDriver turn_clockwise_implementation(int degrees) {
+        gyroSensor.resetZAxisIntegrator();
+
+        driveTrain.setPowers(power, -power);
+        int heading = gyroSensor.getHeading();
+        while(gyro_is_between(heading, -10, degrees) && opMode.opModeIsActive()) {
+            heading = gyroSensor.getHeading();
+        }
+
+        driveTrain.setPowers(-power/2, power/2);
+        while(gyro_is_between(heading, degrees+5, degrees-10) && opMode.opModeIsActive()) {
+            heading = gyroSensor.getHeading();
+        }
+        return this;
+    }
+
+    @Override
+    public AutoDriver turn_counterclockwise_implementation(int degrees) {
         gyroSensor.resetZAxisIntegrator();
 
         driveTrain.setPowers(-power, power);
-        while(gyro_is_between(10, degrees) && opMode.opModeIsActive()) {
-            //opMode.telemetry.addData("Gyro Heading", gyroSensor.getHeading());
+        int heading = gyroSensor.getHeading();
+        while(gyro_is_between(heading, 10, degrees) && opMode.opModeIsActive()) {
+            heading = gyroSensor.getHeading();
         }
 
         driveTrain.setPowers(power/2, -power/2);
-        while(gyro_is_between(degrees-5, degrees+10) && opMode.opModeIsActive()) {
-            //opMode.telemetry.addData("Gyro Heading", gyroSensor.getHeading());
+        while(gyro_is_between(heading, degrees-5, degrees+10) && opMode.opModeIsActive()) {
+            heading = gyroSensor.getHeading();
         }
-        driveTrain.haltDrive();
-
         return this;
     }
 }

@@ -12,47 +12,39 @@ public class EncoderAutoDriver extends AutoDriver {
     }
 
     @Override
-    public AutoDriver drive_forward(int encoderCount) {
+    public AutoDriver drive_forward_implementation(int encoderCount) {
         driveTrain.resetMotorEncoders();
         driveTrain.setPowers(-power, -power);
-        while (driveTrain.getLeftEncoderCount() > encoderCount &&
-                driveTrain.getRightEncoderCount() > encoderCount &&
-                opMode.opModeIsActive()) {}
-        driveTrain.haltDrive();
-        return null;
+        while (driveTrain.getLeftEncoderCount() > encoderCount && opMode.opModeIsActive()) {}
+        return this;
     }
 
     @Override
-    public AutoDriver drive_backward(int encoderCount) {
+    public AutoDriver drive_backward_implementation(int encoderCount) {
         driveTrain.resetMotorEncoders();
         driveTrain.setPowers(-power, -power);
         while (driveTrain.getLeftEncoderCount() > encoderCount &&
                driveTrain.getRightEncoderCount() > encoderCount &&
                opMode.opModeIsActive()) {}
-        driveTrain.haltDrive();
-        return null;
+        return this;
     }
 
     @Override
-    public AutoDriver turn_clockwise(int encoderCount) {
+    public AutoDriver turn_clockwise_implementation(int encoderCount) {
         driveTrain.resetMotorEncoders();
         driveTrain.setPowers(power, -power);
-        while(driveTrain.getLeftEncoderCount() < encoderCount && opMode.opModeIsActive()) {
-            opMode.telemetry.addData("LeftMotorEncoders:", this.driveTrain.getLeftEncoderCount());
-        }
-        driveTrain.haltDrive();
-        return null;
+        while(driveTrain.getLeftEncoderCount() < encoderCount && opMode.opModeIsActive()) {}
+        return this;
     }
 
     @Override
-    public AutoDriver turn_counterclockwise(int encoderCount) {
+    public AutoDriver turn_counterclockwise_implementation(int encoderCount) {
         driveTrain.resetMotorEncoders();
         driveTrain.setPowers(-power, power);
-        while(driveTrain.getRightEncoderCount() > -encoderCount && opMode.opModeIsActive()) {
-            opMode.telemetry.addData("RightMotorEncoders:", this.driveTrain.getRightEncoderCount());
+        while(driveTrain.getRightEncoderCount() < encoderCount && opMode.opModeIsActive()) {
+            opMode.telemetry.addData("rightMotorEncoder", driveTrain.getRightEncoderCount());
         }
-        driveTrain.haltDrive();
-        return null;
+        return this;
     }
 }
 
