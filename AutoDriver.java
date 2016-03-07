@@ -36,6 +36,7 @@ public abstract class AutoDriver {
         //opMode.telemetry.addData("AutoDriver", "Halting");
         driveTrain.haltDrive();
         opMode.waitOneFullHardwareCycle();
+        opMode.waitOneFullHardwareCycle();
         opMode.sleep(wait_time_ms);
     }
 
