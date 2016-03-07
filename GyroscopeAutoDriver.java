@@ -62,9 +62,9 @@ public class GyroscopeAutoDriver extends AutoDriver {
                 opMode.opModeIsActive()) {
             int heading = gyroSensor.getHeading();
             if (gyro_is_between(heading, 180, 357)) {
-                driveTrain.setPowers(-0.6*power, -power);
+                driveTrain.setPowers(-0.75*power, -power);
             } else if (gyro_is_between(heading, 2, 179)) {
-                driveTrain.setPowers(-power, -0.6*power);
+                driveTrain.setPowers(-power, -0.75*power);
             } else {
                 driveTrain.setPowers(-power, -power);
             }
@@ -95,7 +95,7 @@ public class GyroscopeAutoDriver extends AutoDriver {
 
         driveTrain.setPowers(-power, power);
         int heading = gyroSensor.getHeading();
-        while(gyro_is_between(heading, 10, degrees) && opMode.opModeIsActive()) {
+        while(gyro_is_between(heading, degrees, 10) && opMode.opModeIsActive()) {
             heading = gyroSensor.getHeading();
         }
 
