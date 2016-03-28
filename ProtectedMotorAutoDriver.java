@@ -20,12 +20,10 @@ public class ProtectedMotorAutoDriver extends AutoDriver {
 
     @Override
     public AutoDriver drive_forward_implementation(int distance) {
-        assert ((0.0 < power) && (power <= 1.0));
-
-        leftPower = Math.signum(distance) * power;
-        rightPower = Math.signum(distance) * power;
-        leftEncoderTarget = driveTrain.convertInchesToEncoderCounts(distance);
-        rightEncoderTarget = driveTrain.convertInchesToEncoderCounts(distance);
+        leftPower = power;
+        rightPower = power;
+        leftEncoderTarget = distance;
+        rightEncoderTarget = distance;
 
         // For the Techno Warriors static settings, this is a bit redundant,
         // but I wanted to follow the intent of the function.
@@ -33,7 +31,7 @@ public class ProtectedMotorAutoDriver extends AutoDriver {
         driveTrain.calculateThreshold(rightPower);
 
         try {
-            driveTrain.pMotorRun(leftEncoderTarget, rightEncoderTarget);
+            driveTrain.pMotorRun(leftEncoderTarget, rightEncoderTarget, leftPower, rightPower);
         } catch(DriveTrain.MotorStallException motorStallException) {
             opMode.telemetry.addData("ERROR:", "MOTOR STALL EXCEPTION");
         }

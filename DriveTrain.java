@@ -274,7 +274,8 @@ public class DriveTrain
         }
     }
 
-    protected void pMotorRun(long leftEncoderTarget, long rightEncoderTarget) throws MotorStallException
+    protected void pMotorRun(long leftEncoderTarget, long rightEncoderTarget, double leftPower,
+                             double rightPower) throws MotorStallException
     {
         int previousLeftCounts = -100;
         int previousRightCounts = -100;
