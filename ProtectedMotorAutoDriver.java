@@ -1,7 +1,6 @@
 package com.FTC3486.FTCRC_Extensions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * Created by Matthew on 3/19/2016.

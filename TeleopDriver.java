@@ -1,7 +1,6 @@
 package com.FTC3486.FTCRC_Extensions;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 /**

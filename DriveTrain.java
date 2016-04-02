@@ -302,9 +302,9 @@ public class DriveTrain
                     throw new MotorStallException(String.format(
                             "A motor has remained under the threshold for "+ timeStalled + " ms."));
                 }
+                previousTime = System.currentTimeMillis();
             }
 
-            previousTime = System.currentTimeMillis();
         }
 
         this.haltDrive();

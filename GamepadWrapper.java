@@ -1,9 +1,6 @@
 package com.FTC3486.FTCRC_Extensions;
 
-import android.view.KeyEvent;
 import com.qualcomm.robotcore.hardware.Gamepad;
-
-import java.util.Enumeration;
 
 /**
  * Created by Jacob on 11/28/2015.
