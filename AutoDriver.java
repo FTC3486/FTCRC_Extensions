@@ -28,12 +28,12 @@ public abstract class AutoDriver {
     }
 
     private void setup_motion(String motion_description) {
-        //opMode.telemetry.addData("AutoDriver", motion_description);
+        opMode.telemetry.addData("AutoDriver", motion_description);
         driveTrain.resetMotorEncoders();
     }
 
     private void end_motion() throws InterruptedException{
-        //opMode.telemetry.addData("AutoDriver", "Halting");
+        opMode.telemetry.addData("AutoDriver", "Halting");
         driveTrain.haltDrive();
         opMode.waitOneFullHardwareCycle();
         opMode.waitOneFullHardwareCycle();
