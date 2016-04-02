@@ -2,7 +2,6 @@ package com.FTC3486.FTCRC_Extensions;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.util.LinkedList;
 
@@ -17,12 +16,6 @@ public class DriveTrain
     private LinkedList<DcMotor> rightMotorsWithEncoders;
     private double leftSpeed;
     private double rightSpeed;
-    private int leftEncoderCountThreshold;
-    private int rightEncoderCountThreshold;
-    protected long timeoutMillis;
-    protected int checkMotorsFrequency = 60;
-    private double leftPower;
-    private double rightPower;
 
     private DriveTrain(Builder builder)
     {
@@ -184,130 +177,15 @@ public class DriveTrain
     }
 
     protected void resetMotorEncoders() {
-        for(DcMotor leftMotorWithEncoders: leftMotorsWithEncoders) {
+        for (DcMotor leftMotorWithEncoders : leftMotorsWithEncoders) {
             leftMotorWithEncoders.setMode(DcMotorController.RunMode.RESET_ENCODERS);
             leftMotorWithEncoders.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         }
 
-        for(DcMotor rightMotorWithEncoders: rightMotorsWithEncoders) {
+        for (DcMotor rightMotorWithEncoders : rightMotorsWithEncoders) {
             rightMotorWithEncoders.setMode(DcMotorController.RunMode.RESET_ENCODERS);
             rightMotorWithEncoders.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         }
-    }
-
-    protected void setCheckMotorsFrequency(int frequency)
-    {
-        assert (frequency > 0);
-
-        checkMotorsFrequency = frequency;
-    }
-
-    protected boolean checkIsTargetReached(long leftEncoderTarget, long rightEncoderTarget)
-    {
-        boolean targetIsReached = false;
-
-        for (DcMotor motor : leftMotorsWithEncoders)
-        {
-            if (Math.abs(leftEncoderTarget - motor.getCurrentPosition()) <
-                    leftEncoderCountThreshold)
-            {
-                targetIsReached = true;
-            }
-        }
-
-        for (DcMotor motor : rightMotorsWithEncoders)
-        {
-            if (Math.abs(rightEncoderTarget - motor.getCurrentPosition()) <
-                    rightEncoderCountThreshold)
-            {
-                targetIsReached = true;
-            }
-        }
-
-        return targetIsReached;
-    }
-
-    protected boolean checkForStall(int previousLeftCounts,
-                                  int previousRightCounts)
-    {
-        boolean isStallDetected = false;
-
-        for (DcMotor motor : leftMotorsWithEncoders)
-        {
-            if (Math.abs(previousLeftCounts - motor.getCurrentPosition()) <=
-                    leftEncoderCountThreshold)
-            {
-                isStallDetected = true;
-            }
-        }
-
-        for (DcMotor motor : rightMotorsWithEncoders)
-        {
-            if (Math.abs(previousRightCounts - motor.getCurrentPosition()) <=
-                    rightEncoderCountThreshold)
-            {
-                isStallDetected = true;
-            }
-        }
-
-        return isStallDetected;
-    }
-
-    protected void calculateThreshold(double power)
-    {
-        // static settings for the Techno Warriors:
-        // Left and Right must be at 0 rpm for 30 seconds, however, you can't
-        // just pick '0' as the encoder count threshold because that will
-        // probably never trigger. Instead, I pick something really small,
-        // like 15 degrees of rotation on the drive shaft, which is
-        // equivalent to about 50 encoder counts
-        leftEncoderCountThreshold = 50;
-        rightEncoderCountThreshold = 50;
-        timeoutMillis = 30000;
-    }
-
-    protected class MotorStallException extends Exception
-    {
-        public MotorStallException(String errorMessage)
-        {
-            super(errorMessage);
-        }
-    }
-
-    protected void pMotorRun(long leftEncoderTarget, long rightEncoderTarget, double leftPower,
-                             double rightPower) throws MotorStallException
-    {
-        int previousLeftCounts = -100;
-        int previousRightCounts = -100;
-        long previousTime = System.currentTimeMillis();
-        long timeStalled = 0;
-
-        while (this.checkIsTargetReached(leftEncoderTarget, rightEncoderTarget)) {
-            this.setPowers(leftPower, rightPower);
-
-            long elapsedTime = System.currentTimeMillis() - previousTime;
-
-            if (elapsedTime > this.checkMotorsFrequency) {
-                if (this.checkForStall(previousLeftCounts, previousRightCounts))
-                {
-                    timeStalled += elapsedTime;
-                }
-                else
-                {
-                    timeStalled = 0;
-                }
-
-                if (timeStalled >= this.timeoutMillis)
-                {
-                    throw new MotorStallException(String.format(
-                            "A motor has remained under the threshold for "+ timeStalled + " ms."));
-                }
-                previousTime = System.currentTimeMillis();
-            }
-
-        }
-
-        this.haltDrive();
     }
 
     @Override
