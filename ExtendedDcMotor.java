@@ -18,10 +18,18 @@ public class ExtendedDcMotor extends DcMotor {
     @Override
     public void setMode(DcMotorController.RunMode mode) {
         super.setMode(mode);
-        while(super.getMode() != mode && opMode.opModeIsActive()) {}
+        while(super.getMode() != mode && opMode.opModeIsActive()) {
+            try {
+                opMode.sleep(32);
+            } catch (InterruptedException e) {};
+        }
 
         if (mode == DcMotorController.RunMode.RESET_ENCODERS) {
-            while (super.getCurrentPosition() != 0 && opMode.opModeIsActive()) {}
+            while (super.getCurrentPosition() != 0 && opMode.opModeIsActive()) {
+                try {
+                    opMode.sleep(32);
+                } catch (InterruptedException e) {};
+            }
         }
     }
 }
