@@ -60,8 +60,9 @@ public class ProtectedMotorAutoDriver extends AutoDriver {
 
         for (DcMotor motor : driveTrain.getLeftMotorsWithEncoders())
         {
-            if (Math.abs(previousLeftCounts - motor.getCurrentPosition()) <=
-                    leftEncoderCountThreshold)
+            int countsInThisTimeslice = Math.abs(previousLeftCounts - motor.getCurrentPosition());
+            opMode.telemetry.addData("left distance", countsInThisTimeslice);
+            if (countsInThisTimeslice <= leftEncoderCountThreshold)
             {
                 isStallDetected = true;
             }
@@ -69,8 +70,9 @@ public class ProtectedMotorAutoDriver extends AutoDriver {
 
         for (DcMotor motor : driveTrain.getRightMotorsWithEncoders())
         {
-            if (Math.abs(previousRightCounts - motor.getCurrentPosition()) <=
-                    rightEncoderCountThreshold)
+            int countsInThisTimeslice = Math.abs(previousRightCounts - motor.getCurrentPosition());
+            opMode.telemetry.addData("right distance", countsInThisTimeslice);
+            if (countsInThisTimeslice <= rightEncoderCountThreshold)
             {
                 isStallDetected = true;
             }
@@ -81,13 +83,13 @@ public class ProtectedMotorAutoDriver extends AutoDriver {
 
     private void pMotorRun() throws MotorStallException
     {
-        int previousLeftCounts = 100;
-        int previousRightCounts = 100;
+        int previousLeftCounts = 0;
+        int previousRightCounts = 0;
         long previousTime = System.currentTimeMillis();
         long timeStalled = 0;
         driveTrain.setPowers(leftSpeed, rightSpeed);
 
-        while (!is_target_reached())
+        while (!is_target_reached() && opMode.opModeIsActive())
         {
             long elapsedTime = System.currentTimeMillis() - previousTime;
 
@@ -105,12 +107,12 @@ public class ProtectedMotorAutoDriver extends AutoDriver {
                 if (timeStalled >= timeoutMillis)
                 {
                     throw new MotorStallException(String.format(
-                            "A motor has remained under the " +
-                                    "threshold for %ld ms.", timeStalled));
+                            "A motor has remained under the threshold for %d ms.", timeStalled));
                 }
+                previousTime = System.currentTimeMillis();
+                previousLeftCounts = (int) driveTrain.getLeftEncoderCount();
+                previousRightCounts = (int) driveTrain.getRightEncoderCount();
             }
-
-            previousTime = System.currentTimeMillis();
         }
 
         driveTrain.haltDrive();
@@ -118,8 +120,8 @@ public class ProtectedMotorAutoDriver extends AutoDriver {
 
     private int calculateThreshold(double speed)
     {
-        timeoutMillis = 100;
-        int threshold = (int) (50 * speed);
+        timeoutMillis = 500;
+        int threshold = (int) (100 * speed);
         return threshold;
     }
 
