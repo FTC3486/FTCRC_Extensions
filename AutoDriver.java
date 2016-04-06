@@ -18,12 +18,12 @@ public abstract class AutoDriver {
     }
 
     public void set_power(double power) {
-        if (power < 0) throw new AssertionError("the power should always be positive");
+        if (power < 0) throw new IllegalArgumentException("the power should always be positive");
         this.power = power;
     }
 
     public void set_wait_time_between_movements(int milliseconds) {
-        if (milliseconds < 0) throw new AssertionError("the wait time should always be positive");
+        if (milliseconds < 0) throw new IllegalArgumentException("the wait time should always be positive");
         this.wait_time_ms = milliseconds;
     }
 
