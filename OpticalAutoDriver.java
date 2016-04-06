@@ -24,10 +24,10 @@ public class OpticalAutoDriver extends AutoDriver {
 
     @Override
     public AutoDriver drive_backward_implementation(int lightValue) {
-        while(this.opticalDistanceSensor.getLightDetected() <= lightValue) {
-            driveTrain.setPowers(-power, -power);
-        }
-        driveTrain.setPowers(0.0, 0.0);
+        driveTrain.setPowers(-power, -power);
+        while (this.opticalDistanceSensor.getLightDetected() <= lightValue &&
+                !eStop && opMode.opModeIsActive()) {}
+        driveTrain.haltDrive();
         return this;
     }
 

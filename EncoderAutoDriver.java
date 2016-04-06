@@ -15,7 +15,8 @@ public class EncoderAutoDriver extends AutoDriver {
     public AutoDriver drive_forward_implementation(int encoderCount) {
         driveTrain.resetMotorEncoders();
         driveTrain.setPowers(-power, -power);
-        while (driveTrain.getLeftEncoderCount() > encoderCount && opMode.opModeIsActive()) {}
+        while (driveTrain.getLeftEncoderCount() > encoderCount &&
+               !eStop && opMode.opModeIsActive()) {}
         return this;
     }
 
@@ -25,7 +26,7 @@ public class EncoderAutoDriver extends AutoDriver {
         driveTrain.setPowers(-power, -power);
         while (driveTrain.getLeftEncoderCount() > encoderCount &&
                driveTrain.getRightEncoderCount() > encoderCount &&
-               opMode.opModeIsActive()) {}
+               !eStop && opMode.opModeIsActive()) {}
         return this;
     }
 
@@ -33,7 +34,8 @@ public class EncoderAutoDriver extends AutoDriver {
     public AutoDriver turn_clockwise_implementation(int encoderCount) {
         driveTrain.resetMotorEncoders();
         driveTrain.setPowers(power, -power);
-        while(driveTrain.getLeftEncoderCount() < encoderCount && opMode.opModeIsActive()) {}
+        while(driveTrain.getLeftEncoderCount() < encoderCount &&
+              !eStop && opMode.opModeIsActive()) {}
         return this;
     }
 
@@ -41,9 +43,8 @@ public class EncoderAutoDriver extends AutoDriver {
     public AutoDriver turn_counterclockwise_implementation(int encoderCount) {
         driveTrain.resetMotorEncoders();
         driveTrain.setPowers(-power, power);
-        while(driveTrain.getRightEncoderCount() < encoderCount && opMode.opModeIsActive()) {
-            opMode.telemetry.addData("rightMotorEncoder", driveTrain.getRightEncoderCount());
-        }
+        while(driveTrain.getRightEncoderCount() < encoderCount &&
+              !eStop && opMode.opModeIsActive()) {}
         return this;
     }
 }

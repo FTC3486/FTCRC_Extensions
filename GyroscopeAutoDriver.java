@@ -39,7 +39,7 @@ public class GyroscopeAutoDriver extends AutoDriver {
 
         while (driveTrain.getLeftEncoderCount() < encoderCounts &&
                driveTrain.getRightEncoderCount() < encoderCounts &&
-               opMode.opModeIsActive()) {
+               !eStop && opMode.opModeIsActive()) {
             int heading = gyroSensor.getHeading();
             if (gyro_is_between(heading, 180, 357)) {
                 driveTrain.setPowers(power, 0.6*power);
@@ -59,7 +59,7 @@ public class GyroscopeAutoDriver extends AutoDriver {
 
         while (driveTrain.getLeftEncoderCount() > encoderCounts &&
                 driveTrain.getRightEncoderCount() > encoderCounts &&
-                opMode.opModeIsActive()) {
+                !eStop && opMode.opModeIsActive()) {
             int heading = gyroSensor.getHeading();
             if (gyro_is_between(heading, 180, 357)) {
                 driveTrain.setPowers(-0.75*power, -power);
@@ -78,12 +78,14 @@ public class GyroscopeAutoDriver extends AutoDriver {
 
         driveTrain.setPowers(power, -power);
         int heading = gyroSensor.getHeading();
-        while(gyro_is_between(heading, -10, degrees) && opMode.opModeIsActive()) {
+        while (gyro_is_between(heading, -10, degrees) &&
+                !eStop && opMode.opModeIsActive()) {
             heading = gyroSensor.getHeading();
         }
 
         driveTrain.setPowers(-power/2, power/2);
-        while(gyro_is_between(heading, degrees+5, degrees-10) && opMode.opModeIsActive()) {
+        while (gyro_is_between(heading, degrees+5, degrees-10) &&
+                !eStop && opMode.opModeIsActive()) {
             heading = gyroSensor.getHeading();
         }
         return this;
@@ -95,12 +97,14 @@ public class GyroscopeAutoDriver extends AutoDriver {
 
         driveTrain.setPowers(-power, power);
         int heading = gyroSensor.getHeading();
-        while(gyro_is_between(heading, degrees, 10) && opMode.opModeIsActive()) {
+        while(gyro_is_between(heading, degrees, 10) &&
+                !eStop && opMode.opModeIsActive()) {
             heading = gyroSensor.getHeading();
         }
 
         driveTrain.setPowers(power/2, -power/2);
-        while(gyro_is_between(heading, degrees-5, degrees+10) && opMode.opModeIsActive()) {
+        while(gyro_is_between(heading, degrees-5, degrees+10) &&
+                !eStop && opMode.opModeIsActive()) {
             heading = gyroSensor.getHeading();
         }
         return this;
