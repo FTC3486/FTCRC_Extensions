@@ -101,25 +101,7 @@ public class DriveTrain
 
     protected void haltDrive()
     {
-        for (DcMotor motor : leftMotorsWithEncoders)
-        {
-            motor.setPower(0);
-        }
-
-        for (DcMotor motor : rightMotorsWithEncoders)
-        {
-            motor.setPower(0);
-        }
-
-        for (DcMotor motor : leftMotors)
-        {
-            motor.setPower(0);
-        }
-
-        for (DcMotor motor : rightMotors)
-        {
-            motor.setPower(0);
-        }
+        setPowers(0, 0);
     }
 
     protected void setPowers(double leftSpeed, double rightSpeed)
@@ -146,6 +128,14 @@ public class DriveTrain
         {
             motor.setPower(rightSpeed);
         }
+    }
+
+    public double getLeftSpeed() {
+        return leftSpeed;
+    }
+
+    public double getRightSpeed() {
+        return rightSpeed;
     }
 
     protected long convertInchesToEncoderCounts(float distance)
