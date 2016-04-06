@@ -8,8 +8,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 public abstract class AutoDriver {
     protected LinearOpMode opMode;
     protected DriveTrain driveTrain;
+    private StallMonitor stallMonitor = new StallMonitor(this);
     protected double power = 1.0D;
     private int wait_time_ms = 500;
+    protected boolean eStop = false;
 
 
     public AutoDriver(LinearOpMode opMode, DriveTrain driveTrain) {
@@ -28,16 +30,23 @@ public abstract class AutoDriver {
     }
 
     private void setup_motion(String motion_description) {
+        eStop = false;
         opMode.telemetry.addData("AutoDriver", motion_description);
         driveTrain.resetMotorEncoders();
+        stallMonitor.start_monitoring();
     }
 
-    private void end_motion() throws InterruptedException{
+    private void end_motion() throws InterruptedException {
         opMode.telemetry.addData("AutoDriver", "Halting");
         driveTrain.haltDrive();
+        stallMonitor.stop_monitoring();
         opMode.waitOneFullHardwareCycle();
         opMode.waitOneFullHardwareCycle();
         opMode.sleep(wait_time_ms);
+    }
+
+    protected void e_stop() {
+        eStop = true;
     }
 
     public AutoDriver drive_forward(int encoderCounts) throws InterruptedException {
@@ -72,5 +81,4 @@ public abstract class AutoDriver {
     public abstract AutoDriver drive_backward_implementation(int encoderCounts);
     public abstract AutoDriver turn_clockwise_implementation(int degrees);
     public abstract AutoDriver turn_counterclockwise_implementation(int degrees);
-
 }
