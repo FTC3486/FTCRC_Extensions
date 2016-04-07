@@ -61,9 +61,9 @@ public class GyroscopeAutoDriver extends AutoDriver {
                 driveTrain.getRightEncoderCount() > encoderCounts &&
                 !eStop && opMode.opModeIsActive()) {
             int heading = gyroSensor.getHeading();
-            if (gyro_is_between(heading, 180, 357)) {
+            if (gyro_is_between(heading, 180, 359)) {
                 driveTrain.setPowers(-0.75*power, -power);
-            } else if (gyro_is_between(heading, 2, 179)) {
+            } else if (gyro_is_between(heading, 1, 179)) {
                 driveTrain.setPowers(-power, -0.75*power);
             } else {
                 driveTrain.setPowers(-power, -power);
