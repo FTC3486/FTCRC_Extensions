@@ -42,6 +42,7 @@ public abstract class AutoDriver {
         stallMonitor.stop_monitoring();
         opMode.telemetry.addData("AutoDriver", "Halting");
         opMode.telemetry.addData("MotorStates", driveTrain.getMotorRunModes());
+        driveTrain.haltDrive();
         opMode.waitOneFullHardwareCycle();
         opMode.waitOneFullHardwareCycle();
         opMode.sleep(wait_time_ms);
