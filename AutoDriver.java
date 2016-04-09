@@ -32,14 +32,16 @@ public abstract class AutoDriver {
     private void setup_motion(String motion_description) {
         eStop = false;
         opMode.telemetry.addData("AutoDriver", motion_description);
+        opMode.telemetry.addData("MotorStates", driveTrain.getMotorRunModes());
         driveTrain.resetMotorEncoders();
         stallMonitor.start_monitoring();
     }
 
     private void end_motion() throws InterruptedException {
-        opMode.telemetry.addData("AutoDriver", "Halting");
         driveTrain.haltDrive();
         stallMonitor.stop_monitoring();
+        opMode.telemetry.addData("AutoDriver", "Halting");
+        opMode.telemetry.addData("MotorStates", driveTrain.getMotorRunModes());
         opMode.waitOneFullHardwareCycle();
         opMode.waitOneFullHardwareCycle();
         opMode.sleep(wait_time_ms);
