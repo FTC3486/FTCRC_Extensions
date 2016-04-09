@@ -18,17 +18,21 @@ public class ExtendedDcMotor extends DcMotor {
     @Override
     public void setMode(DcMotorController.RunMode mode) {
         super.setMode(mode);
+
+        try {
+            opMode.sleep(50);
+        } catch (InterruptedException e) {}
+
         while(super.getMode() != mode && opMode.opModeIsActive()) {
             try {
-                opMode.sleep(32);
-            } catch (InterruptedException e) {};
+                opMode.sleep(50);
+            } catch (InterruptedException e) {}
         }
 
         if (mode == DcMotorController.RunMode.RESET_ENCODERS) {
-            while (super.getCurrentPosition() != 0 && opMode.opModeIsActive()) {
-                try {
-                    opMode.sleep(32);
-                } catch (InterruptedException e) {};
+            int currentEncoderCount = super.getCurrentPosition();
+            if(currentEncoderCount != 0) {
+                opMode.telemetry.addData("Encoder Error; Current Value: ", currentEncoderCount);
             }
         }
     }
