@@ -166,6 +166,30 @@ public class DriveTrain
         return sumValue;
     }
 
+    protected LinkedList<DcMotorController.RunMode> getMotorRunModes() {
+        LinkedList<DcMotorController.RunMode> motorRunModes = new LinkedList<>();
+
+        for (DcMotor leftMotorWithEncoders : leftMotorsWithEncoders) {
+            motorRunModes.add(leftMotorWithEncoders.getMode());
+        }
+
+        for (DcMotor rightMotorWithEncoders : rightMotorsWithEncoders) {
+            motorRunModes.add(rightMotorWithEncoders.getMode());
+        }
+
+        for (DcMotor motor : leftMotors)
+        {
+            motorRunModes.add(motor.getMode());
+        }
+
+        for (DcMotor motor : rightMotors)
+        {
+            motorRunModes.add(motor.getMode());
+        }
+
+        return motorRunModes;
+    }
+
     protected void resetMotorEncoders() {
         for (DcMotor leftMotorWithEncoders : leftMotorsWithEncoders) {
             leftMotorWithEncoders.setMode(DcMotorController.RunMode.RESET_ENCODERS);
