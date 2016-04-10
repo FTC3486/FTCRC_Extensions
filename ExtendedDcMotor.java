@@ -33,6 +33,12 @@ public class ExtendedDcMotor extends DcMotor {
             int currentEncoderCount = super.getCurrentPosition();
             if(currentEncoderCount != 0) {
                 opMode.telemetry.addData("Encoder Error; Current Value: ", currentEncoderCount);
+
+                while(getCurrentPosition() != 0 && opMode.opModeIsActive()) {
+                    try {
+                        opMode.sleep(50);
+                    } catch (InterruptedException e) { }
+                }
             }
         }
     }
