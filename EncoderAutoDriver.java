@@ -13,25 +13,30 @@ public class EncoderAutoDriver extends AutoDriver {
 
     @Override
     public AutoDriver drive_forward_implementation(int encoderCount) {
-        driveTrain.resetMotorEncoders();
         driveTrain.setPowers(power, power);
         while(driveTrain.getLeftEncoderCount() < encoderCount &&
-               !eStop && opMode.opModeIsActive()) {}
+               !eStop && opMode.opModeIsActive()) {
+            try {
+                opMode.sleep(50);
+            } catch (InterruptedException e) { }
+        }
         return this;
     }
 
     @Override
     public AutoDriver drive_backward_implementation(int encoderCount) {
-        driveTrain.resetMotorEncoders();
         driveTrain.setPowers(-power, -power);
         while(driveTrain.getLeftEncoderCount() > encoderCount &&
-               !eStop && opMode.opModeIsActive()) {}
+               !eStop && opMode.opModeIsActive()) {
+            try {
+                opMode.sleep(50);
+            } catch (InterruptedException e) { }
+        }
         return this;
     }
 
     @Override
     public AutoDriver turn_clockwise_implementation(int encoderCount) {
-        driveTrain.resetMotorEncoders();
         driveTrain.setPowers(power, -power);
         while(driveTrain.getLeftEncoderCount() < encoderCount &&
               !eStop && opMode.opModeIsActive()) {}
@@ -40,7 +45,6 @@ public class EncoderAutoDriver extends AutoDriver {
 
     @Override
     public AutoDriver turn_counterclockwise_implementation(int encoderCount) {
-        driveTrain.resetMotorEncoders();
         driveTrain.setPowers(-power, power);
         while(driveTrain.getRightEncoderCount() < encoderCount &&
               !eStop && opMode.opModeIsActive()) {}
