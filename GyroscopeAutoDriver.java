@@ -34,7 +34,6 @@ public class GyroscopeAutoDriver extends AutoDriver {
 
     @Override
     public AutoDriver drive_forward_implementation(int encoderCounts) {
-        driveTrain.resetMotorEncoders();
         gyroSensor.resetZAxisIntegrator();
 
         while (driveTrain.getLeftEncoderCount() < encoderCounts &&
@@ -54,7 +53,6 @@ public class GyroscopeAutoDriver extends AutoDriver {
 
     @Override
     public AutoDriver drive_backward_implementation(int encoderCounts) {
-        driveTrain.resetMotorEncoders();
         gyroSensor.resetZAxisIntegrator();
 
         while (driveTrain.getLeftEncoderCount() > encoderCounts &&
