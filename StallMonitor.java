@@ -23,13 +23,15 @@ class StallMonitor
     protected class StallMonitorTask extends TimerTask {
         private int previousLeftCounts;
         private int previousRightCounts;
+        int leftThresholdConstant = 125;
+        int rightThresholdConstant = 125;
 
         int getLeftThreshold() {
-            return (int) (100 * autoDriver.driveTrain.getLeftSpeed());
+            return (int) (leftThresholdConstant * autoDriver.driveTrain.getLeftSpeed());
         }
 
         int getRightThreshold() {
-            return (int) (100 * autoDriver.driveTrain.getRightSpeed());
+            return (int) (rightThresholdConstant * autoDriver.driveTrain.getRightSpeed());
         }
 
         private boolean is_stall_detected() {
