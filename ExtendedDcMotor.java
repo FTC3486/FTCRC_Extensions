@@ -20,12 +20,12 @@ public class ExtendedDcMotor extends DcMotor {
         super.setMode(mode);
 
         try {
-            opMode.sleep(50);
+            opMode.waitOneFullHardwareCycle();
         } catch (InterruptedException e) {}
 
         while(super.getMode() != mode && opMode.opModeIsActive()) {
             try {
-                opMode.sleep(50);
+                opMode.waitOneFullHardwareCycle();
             } catch (InterruptedException e) {}
         }
 
@@ -36,8 +36,9 @@ public class ExtendedDcMotor extends DcMotor {
 
                 while(getCurrentPosition() != 0 && opMode.opModeIsActive()) {
                     try {
-                        opMode.sleep(50);
-                    } catch (InterruptedException e) { }
+                        opMode.waitOneFullHardwareCycle();
+
+                    } catch (InterruptedException e) {}
                 }
             }
         }

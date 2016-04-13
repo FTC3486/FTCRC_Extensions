@@ -13,11 +13,12 @@ public class EncoderAutoDriver extends AutoDriver {
 
     @Override
     public AutoDriver drive_forward_implementation(int encoderCount) {
+
         driveTrain.setPowers(power, power);
         while(driveTrain.getLeftEncoderCount() < encoderCount &&
                !eStop && opMode.opModeIsActive()) {
             try {
-                opMode.sleep(50);
+                opMode.waitOneFullHardwareCycle();
             } catch (InterruptedException e) { }
         }
         return this;
@@ -29,7 +30,7 @@ public class EncoderAutoDriver extends AutoDriver {
         while(driveTrain.getLeftEncoderCount() > encoderCount &&
                !eStop && opMode.opModeIsActive()) {
             try {
-                opMode.sleep(50);
+                opMode.waitOneFullHardwareCycle();
             } catch (InterruptedException e) { }
         }
         return this;
