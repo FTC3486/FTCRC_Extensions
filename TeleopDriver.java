@@ -51,11 +51,11 @@ public class TeleopDriver
 
         if(direction == Direction.FORWARD)
         {
-            driveTrain.setPowers(left, right);
+            driveTrain.setPowers(-left, -right);
         }
         else
         {
-            driveTrain.setPowers(-right, -left);
+            driveTrain.setPowers(right, left);
         }
     }
 
