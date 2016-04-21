@@ -22,7 +22,7 @@ public class ColorAutoDriver extends AutoDriver {
         driveTrain.setPowers(power, power);
 
         try {
-            opMode.waitOneFullHardwareCycle();
+            opMode.sleep(500);
         } catch (InterruptedException e) { }
 
         while (colorSensor.argb() <= lightValue &&
