@@ -40,7 +40,11 @@ public class EncoderAutoDriver extends AutoDriver {
     public AutoDriver turn_clockwise_implementation(int encoderCount) {
         driveTrain.setPowers(power, -power);
         while(driveTrain.getLeftEncoderCount() < encoderCount &&
-              !eStop && opMode.opModeIsActive()) {}
+              !eStop && opMode.opModeIsActive()) {
+            try {
+                opMode.waitOneFullHardwareCycle();
+            } catch (InterruptedException e) { }
+        }
         return this;
     }
 
@@ -48,7 +52,11 @@ public class EncoderAutoDriver extends AutoDriver {
     public AutoDriver turn_counterclockwise_implementation(int encoderCount) {
         driveTrain.setPowers(-power, power);
         while(driveTrain.getRightEncoderCount() < encoderCount &&
-              !eStop && opMode.opModeIsActive()) {}
+              !eStop && opMode.opModeIsActive()) {
+            try {
+                opMode.waitOneFullHardwareCycle();
+            } catch (InterruptedException e) { }
+        }
         return this;
     }
 }
