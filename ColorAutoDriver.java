@@ -21,7 +21,7 @@ public class ColorAutoDriver extends AutoDriver {
     public AutoDriver drive_forward_implementation(int lightValue) {
         driveTrain.setPowers(power, power);
 
-       while (driveTrain.getLeftEncoderCount() < 200 &&
+       while (driveTrain.getLeftEncoderCount() < 400 &&
                 !eStop && opMode.opModeIsActive()) {
             try {
                 opMode.waitOneFullHardwareCycle();
@@ -43,9 +43,12 @@ public class ColorAutoDriver extends AutoDriver {
     public AutoDriver drive_backward_implementation(int lightValue) {
         driveTrain.setPowers(-power, -power);
 
-        try {
-            opMode.waitOneFullHardwareCycle();
-        } catch (InterruptedException e) { }
+        while (driveTrain.getLeftEncoderCount() > -400 &&
+                !eStop && opMode.opModeIsActive()) {
+            try {
+                opMode.waitOneFullHardwareCycle();
+            } catch (InterruptedException e){ }
+        }
 
         while (colorSensor.argb() <= lightValue &&
                 !eStop && opMode.opModeIsActive()) {
@@ -53,6 +56,7 @@ public class ColorAutoDriver extends AutoDriver {
                 opMode.waitOneFullHardwareCycle();
             } catch (InterruptedException e){ }
         }
+
         driveTrain.haltDrive();
         return this;
     }
