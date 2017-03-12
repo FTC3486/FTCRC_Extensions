@@ -1,4 +1,4 @@
-package com.FTC3486.FTCRC_Extensions;
+package org.firstinspires.ftc.teamcode.FTCRC_Extensions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -23,16 +23,10 @@ public class ColorAutoDriver extends AutoDriver {
 
        while (driveTrain.getLeftEncoderCount() < 400 &&
                 !eStop && opMode.opModeIsActive()) {
-            try {
-                opMode.waitOneFullHardwareCycle();
-            } catch (InterruptedException e){ }
         }
 
         while (colorSensor.argb() <= lightValue &&
                 !eStop && opMode.opModeIsActive()) {
-            try {
-                opMode.waitOneFullHardwareCycle();
-            } catch (InterruptedException e){ }
         }
 
         driveTrain.haltDrive();
@@ -45,16 +39,10 @@ public class ColorAutoDriver extends AutoDriver {
 
         while (driveTrain.getLeftEncoderCount() > -400 &&
                 !eStop && opMode.opModeIsActive()) {
-            try {
-                opMode.waitOneFullHardwareCycle();
-            } catch (InterruptedException e){ }
         }
 
         while (colorSensor.argb() <= lightValue &&
                 !eStop && opMode.opModeIsActive()) {
-            try {
-                opMode.waitOneFullHardwareCycle();
-            } catch (InterruptedException e){ }
         }
 
         driveTrain.haltDrive();

@@ -1,6 +1,7 @@
-package com.FTC3486.FTCRC_Extensions;
+package org.firstinspires.ftc.teamcode.FTCRC_Extensions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 
 /**
  * Created by Jacob on 2/24/16.
@@ -17,9 +18,6 @@ public class EncoderAutoDriver extends AutoDriver {
         driveTrain.setPowers(power, power);
         while(driveTrain.getLeftEncoderCount() < encoderCount &&
                !eStop && opMode.opModeIsActive()) {
-            try {
-                opMode.waitOneFullHardwareCycle();
-            } catch (InterruptedException e) { }
         }
         return this;
     }
@@ -29,9 +27,6 @@ public class EncoderAutoDriver extends AutoDriver {
         driveTrain.setPowers(-power, -power);
         while(driveTrain.getLeftEncoderCount() > encoderCount &&
                !eStop && opMode.opModeIsActive()) {
-            try {
-                opMode.waitOneFullHardwareCycle();
-            } catch (InterruptedException e) { }
         }
         return this;
     }
@@ -41,9 +36,6 @@ public class EncoderAutoDriver extends AutoDriver {
         driveTrain.setPowers(power, -power);
         while(driveTrain.getLeftEncoderCount() < encoderCount &&
               !eStop && opMode.opModeIsActive()) {
-            try {
-                opMode.waitOneFullHardwareCycle();
-            } catch (InterruptedException e) { }
         }
         return this;
     }
@@ -53,9 +45,6 @@ public class EncoderAutoDriver extends AutoDriver {
         driveTrain.setPowers(-power, power);
         while(driveTrain.getRightEncoderCount() < encoderCount &&
               !eStop && opMode.opModeIsActive()) {
-            try {
-                opMode.waitOneFullHardwareCycle();
-            } catch (InterruptedException e) { }
         }
         return this;
     }

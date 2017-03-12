@@ -1,6 +1,4 @@
-package com.FTC3486.FTCRC_Extensions;
-
-import com.qualcomm.robotcore.hardware.DcMotor;
+package org.firstinspires.ftc.teamcode.FTCRC_Extensions;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -8,8 +6,7 @@ import java.util.TimerTask;
 /**
  * Created by Jacob on 4/6/16.
  */
-class StallMonitor
-{
+class StallMonitor {
     AutoDriver autoDriver;
     Timer stallTimer = new Timer();
     StallMonitorTask task;
@@ -37,20 +34,11 @@ class StallMonitor
         private boolean is_stall_detected() {
             boolean isStallDetected = false;
 
-            for (DcMotor motor : autoDriver.driveTrain.getLeftMotorsWithEncoders())
-            {
-                if (Math.abs(previousLeftCounts - motor.getCurrentPosition()) <= getLeftThreshold())
-                {
-                    isStallDetected = true;
-                }
+            if (Math.abs(previousLeftCounts - autoDriver.driveTrain.getLeftEncoderCount()) <= getLeftThreshold()) {
+                isStallDetected = true;
             }
-
-            for (DcMotor motor : autoDriver.driveTrain.getRightMotorsWithEncoders())
-            {
-                if (Math.abs(previousRightCounts - motor.getCurrentPosition()) <= getRightThreshold())
-                {
-                    isStallDetected = true;
-                }
+            if (Math.abs(previousRightCounts - autoDriver.driveTrain.getRightEncoderCount()) <= getRightThreshold()) {
+                isStallDetected = true;
             }
 
             return isStallDetected;

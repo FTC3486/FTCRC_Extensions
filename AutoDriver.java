@@ -1,4 +1,4 @@
-package com.FTC3486.FTCRC_Extensions;
+package org.firstinspires.ftc.teamcode.FTCRC_Extensions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -32,7 +32,6 @@ public abstract class AutoDriver {
     private void setup_motion(String motion_description) {
         eStop = false;
         opMode.telemetry.addData("AutoDriver", motion_description);
-        opMode.telemetry.addData("MotorStates", driveTrain.getMotorRunModes());
         driveTrain.resetMotorEncoders();
         stallMonitor.start_monitoring();
     }
@@ -41,10 +40,6 @@ public abstract class AutoDriver {
         driveTrain.haltDrive();
         stallMonitor.stop_monitoring();
         opMode.telemetry.addData("AutoDriver", "Halting");
-        opMode.telemetry.addData("MotorStates", driveTrain.getMotorRunModes());
-        driveTrain.haltDrive();
-        opMode.waitOneFullHardwareCycle();
-        opMode.waitOneFullHardwareCycle();
         opMode.sleep(wait_time_ms);
     }
 
