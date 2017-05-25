@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Extension;
+package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;

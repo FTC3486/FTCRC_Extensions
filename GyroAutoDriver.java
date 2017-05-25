@@ -1,8 +1,6 @@
-package org.firstinspires.ftc.teamcode.FTCRC_Extensions;
+package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
 
 import com.qualcomm.robotcore.util.Range;
-
-import org.firstinspires.ftc.teamcode.Subsystems.HardwareConfiguration;
 
 /**
  * Created by Owner_2 on 12/31/2016.
@@ -22,11 +20,11 @@ public class GyroAutoDriver {
 
         double target = hw.gyroSensor.getIntegratedZValue();  //Starting direction
         double zAccumulated;
-        double startPositionLeft = hw.driveTrain.getLeftEncoderCount();
-        double startPositionRight = hw.driveTrain.getRightEncoderCount();
+        double startPositionLeft = hw.drivetrain.getLeftEncoderCount();
+        double startPositionRight = hw.drivetrain.getRightEncoderCount();
 
-        while (hw.driveTrain.getLeftEncoderCount() < targetPosition + startPositionLeft
-                && hw.driveTrain.getRightEncoderCount() < targetPosition + startPositionRight && hw.opMode.opModeIsActive()) {
+        while (hw.drivetrain.getLeftEncoderCount() < targetPosition + startPositionLeft
+                && hw.drivetrain.getRightEncoderCount() < targetPosition + startPositionRight && hw.opMode.opModeIsActive()) {
             zAccumulated = hw.gyroSensor.getIntegratedZValue();  //Current direction
 
             leftSpeed = power + (zAccumulated - target) / 20;  //Calculate speed for each side
@@ -35,12 +33,12 @@ public class GyroAutoDriver {
             leftSpeed = Range.clip(leftSpeed, -1, 1);
             rightSpeed = Range.clip(rightSpeed, -1, 1);
 
-            hw.driveTrain.setPowers(leftSpeed, rightSpeed);
+            hw.drivetrain.setPowers(leftSpeed, rightSpeed);
         }
-        hw.driveTrain.haltDrive();
+        hw.drivetrain.haltDrive();
         hw.gyroSensor.resetZAxisIntegrator();
         hw.opMode.sleep(200);
-        hw.driveTrain.resetMotorEncoders();
+        hw.drivetrain.resetMotorEncoders();
     }
 
     public void driveStraightBackwards(int targetPosition, double power) {
@@ -49,11 +47,11 @@ public class GyroAutoDriver {
 
         double target = hw.gyroSensor.getIntegratedZValue();  //Starting direction
         double zAccumulated;
-        double startPositionLeft = hw.driveTrain.getLeftEncoderCount();//Starting position
-        double startPositionRight = hw.driveTrain.getRightEncoderCount();
+        double startPositionLeft = hw.drivetrain.getLeftEncoderCount();//Starting position
+        double startPositionRight = hw.drivetrain.getRightEncoderCount();
 
-        while (hw.driveTrain.getLeftEncoderCount() > targetPosition + startPositionLeft &&
-                hw.driveTrain.getRightEncoderCount() > targetPosition + startPositionRight && hw.opMode.opModeIsActive())
+        while (hw.drivetrain.getLeftEncoderCount() > targetPosition + startPositionLeft &&
+                hw.drivetrain.getRightEncoderCount() > targetPosition + startPositionRight && hw.opMode.opModeIsActive())
         {  //While we have not passed out intended distance
             zAccumulated = hw.gyroSensor.getIntegratedZValue();  //Current direction
 
@@ -63,12 +61,12 @@ public class GyroAutoDriver {
             leftSpeed = Range.clip(leftSpeed, -1, 1);
             rightSpeed = Range.clip(rightSpeed, -1, 1);
 
-            hw.driveTrain.setPowers(leftSpeed, rightSpeed);
+            hw.drivetrain.setPowers(leftSpeed, rightSpeed);
         }
-        hw.driveTrain.haltDrive();
+        hw.drivetrain.haltDrive();
         hw.gyroSensor.resetZAxisIntegrator();
         hw.opMode.sleep(200);
-        hw.driveTrain.resetMotorEncoders();
+        hw.drivetrain.resetMotorEncoders();
     }
 
     public void turn(int target) {
@@ -81,13 +79,13 @@ public class GyroAutoDriver {
 
             power = Math.signum(power) * Range.clip(Math.abs(power), 0.05, 1.0);
 
-            hw.driveTrain.setPowers(power, -power);
+            hw.drivetrain.setPowers(power, -power);
             gyroHeading = this.getAdjustedHeading();
         }
-        hw.driveTrain.haltDrive();
+        hw.drivetrain.haltDrive();
         hw.gyroSensor.resetZAxisIntegrator();
         hw.opMode.sleep(200);
-        hw.driveTrain.resetMotorEncoders();
+        hw.drivetrain.resetMotorEncoders();
     }
 
     private double getAdjustedHeading() {

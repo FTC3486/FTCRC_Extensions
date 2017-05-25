@@ -1,10 +1,8 @@
-package org.firstinspires.ftc.teamcode.FTCRC_Extensions;
+package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.teamcode.FTCRC_Extensions.DriveTrain;
 
 /**
  * Created by Matthew on 3/6/2017.
@@ -19,12 +17,12 @@ public class TargetPositionAutoDriver {
 
     private ElapsedTime runtime = new ElapsedTime();
     private LinearOpMode opMode;
-    private DriveTrain driveTrain;
+    private Drivetrain drivetrain;
 
-    public TargetPositionAutoDriver(LinearOpMode inputOpMode, DriveTrain inputDriveTrain)
+    public TargetPositionAutoDriver(LinearOpMode inputOpMode, Drivetrain inputDrivetrain)
     {
         opMode = inputOpMode;
-        driveTrain = inputDriveTrain;
+        drivetrain = inputDrivetrain;
     }
 
     public void driveToTarget(double speed,
@@ -34,29 +32,29 @@ public class TargetPositionAutoDriver {
         int newRightTarget;
 
         // Determine new target position, and pass to motor controller
-        newLeftTarget = (int) driveTrain.getLeftEncoderCount() + (int) (leftInches * COUNTS_PER_INCH);
-        newRightTarget = (int) driveTrain.getRightEncoderCount() + (int) (rightInches * COUNTS_PER_INCH);
+        newLeftTarget = (int) drivetrain.getLeftEncoderCount() + (int) (leftInches * COUNTS_PER_INCH);
+        newRightTarget = (int) drivetrain.getRightEncoderCount() + (int) (rightInches * COUNTS_PER_INCH);
 
-        driveTrain.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        driveTrain.setTargetPosition(newLeftTarget, newRightTarget);
+        drivetrain.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        drivetrain.setTargetPosition(newLeftTarget, newRightTarget);
 
 
         // reset the timeout time and start motion.
         runtime.reset();
 
-        driveTrain.setPowers(Math.abs(speed), Math.abs(speed));
+        drivetrain.setPowers(Math.abs(speed), Math.abs(speed));
 
         // keep looping while we are still active, and there is time left, and both motors are running.
         while (opMode.opModeIsActive() &&
                 (runtime.seconds() < timeoutS)
-                && driveTrain.isBusy()) {
+                && drivetrain.isBusy()) {
             //Wait for completion
         }
-        driveTrain.haltDrive();
+        drivetrain.haltDrive();
         opMode.sleep(200);
-        driveTrain.resetMotorEncoders();
+        drivetrain.resetMotorEncoders();
 
         // Turn off RUN_TO_POSITION
-        driveTrain.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        drivetrain.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 }

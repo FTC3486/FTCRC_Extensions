@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.FTCRC_Extensions;
+package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -7,16 +7,16 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  */
 public abstract class AutoDriver {
     protected LinearOpMode opMode;
-    protected DriveTrain driveTrain;
+    protected Drivetrain drivetrain;
     private StallMonitor stallMonitor = new StallMonitor(this);
     protected double power = 1.0D;
     private int wait_time_ms = 500;
     protected boolean eStop = false;
 
 
-    public AutoDriver(LinearOpMode opMode, DriveTrain driveTrain) {
+    public AutoDriver(LinearOpMode opMode, Drivetrain drivetrain) {
         this.opMode = opMode;
-        this.driveTrain = driveTrain;
+        this.drivetrain = drivetrain;
     }
 
     public void set_power(double power) {
@@ -32,12 +32,12 @@ public abstract class AutoDriver {
     private void setup_motion(String motion_description) {
         eStop = false;
         opMode.telemetry.addData("AutoDriver", motion_description);
-        driveTrain.resetMotorEncoders();
+        drivetrain.resetMotorEncoders();
         stallMonitor.start_monitoring();
     }
 
     private void end_motion() throws InterruptedException {
-        driveTrain.haltDrive();
+        drivetrain.haltDrive();
         stallMonitor.stop_monitoring();
         opMode.telemetry.addData("AutoDriver", "Halting");
         opMode.sleep(wait_time_ms);

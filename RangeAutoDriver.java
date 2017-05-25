@@ -1,8 +1,6 @@
-package org.firstinspires.ftc.teamcode.FTCRC_Extensions;
+package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
 
 import com.qualcomm.robotcore.util.Range;
-
-import org.firstinspires.ftc.teamcode.Subsystems.HardwareConfiguration;
 
 /**
  * Created by Matthew on 3/8/2017.
@@ -16,10 +14,10 @@ public class RangeAutoDriver {
     }
 
     public void wallFollowForwards(double power, double rangeCm, int encodercounts){
-        double startPositionLeft = hw.driveTrain.getLeftEncoderCount();//Starting position
-        double startPositionRight = hw.driveTrain.getRightEncoderCount();
+        double startPositionLeft = hw.drivetrain.getLeftEncoderCount();//Starting position
+        double startPositionRight = hw.drivetrain.getRightEncoderCount();
 
-        while(hw.driveTrain.getLeftEncoderCount() < encodercounts + startPositionLeft && hw.driveTrain.getRightEncoderCount() < encodercounts + startPositionRight && hw.opMode.opModeIsActive())  {
+        while(hw.drivetrain.getLeftEncoderCount() < encodercounts + startPositionLeft && hw.drivetrain.getRightEncoderCount() < encodercounts + startPositionRight && hw.opMode.opModeIsActive())  {
             double leftSpeed = power;
             double rightSpeed = power;
 
@@ -37,19 +35,19 @@ public class RangeAutoDriver {
             leftSpeed = Range.clip(leftSpeed, -1, 1);
             rightSpeed = Range.clip(rightSpeed, -1, 1);
 
-            hw.driveTrain.setPowers(leftSpeed, rightSpeed);
+            hw.drivetrain.setPowers(leftSpeed, rightSpeed);
         }
-        hw.driveTrain.haltDrive();
+        hw.drivetrain.haltDrive();
         hw.gyroSensor.resetZAxisIntegrator();
         hw.opMode.sleep(200);
-        hw.driveTrain.resetMotorEncoders();
+        hw.drivetrain.resetMotorEncoders();
     }
 
     public void wallFollowBackwards(double power, double rangeCm, int encodercounts){
-        double startPositionLeft = hw.driveTrain.getLeftEncoderCount();//Starting position
-        double startPositionRight = hw.driveTrain.getRightEncoderCount();
+        double startPositionLeft = hw.drivetrain.getLeftEncoderCount();//Starting position
+        double startPositionRight = hw.drivetrain.getRightEncoderCount();
 
-        while(hw.driveTrain.getLeftEncoderCount() > encodercounts + startPositionLeft && hw.driveTrain.getRightEncoderCount() > encodercounts + startPositionRight && hw.opMode.opModeIsActive())  {
+        while(hw.drivetrain.getLeftEncoderCount() > encodercounts + startPositionLeft && hw.drivetrain.getRightEncoderCount() > encodercounts + startPositionRight && hw.opMode.opModeIsActive())  {
             double leftSpeed = power;
             double rightSpeed = power;
 
@@ -66,31 +64,31 @@ public class RangeAutoDriver {
             leftSpeed = Range.clip(leftSpeed, -1, 1);
             rightSpeed = Range.clip(rightSpeed, -1, 1);
 
-            hw.driveTrain.setPowers(leftSpeed, rightSpeed);
+            hw.drivetrain.setPowers(leftSpeed, rightSpeed);
         }
-        hw.driveTrain.haltDrive();
+        hw.drivetrain.haltDrive();
         hw.gyroSensor.resetZAxisIntegrator();
         hw.opMode.sleep(200);
-        hw.driveTrain.resetMotorEncoders();
+        hw.drivetrain.resetMotorEncoders();
     }
 
     public void driveForwardsUntilDistance(double distance, double power) {
         while (hw.frontRangeSensor.getUltrasonicRange() > distance && hw.opMode.opModeIsActive()) {
-            hw.driveTrain.setPowers(power, power);
+            hw.drivetrain.setPowers(power, power);
         }
-        hw.driveTrain.haltDrive();
+        hw.drivetrain.haltDrive();
         hw.gyroSensor.resetZAxisIntegrator();
         hw.opMode.sleep(200);
-        hw.driveTrain.resetMotorEncoders();
+        hw.drivetrain.resetMotorEncoders();
     }
 
     public void driveBackwardsUntilDistance(double distance, double power) {
         while (hw.frontRangeSensor.getUltrasonicRange() < distance && hw.opMode.opModeIsActive()) {
-            hw.driveTrain.setPowers(power, power);
+            hw.drivetrain.setPowers(power, power);
         }
-        hw.driveTrain.haltDrive();
+        hw.drivetrain.haltDrive();
         hw.gyroSensor.resetZAxisIntegrator();
         hw.opMode.sleep(200);
-        hw.driveTrain.resetMotorEncoders();
+        hw.drivetrain.resetMotorEncoders();
     }
 }

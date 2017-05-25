@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.FTCRC_Extensions;
+package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 public class TeleopDriver
 {
     private OpMode opMode;
-    private DriveTrain driveTrain;
+    private Drivetrain drivetrain;
     private float maxSpeed = 1.0f;
     private float minSpeed = 0.1f;
     public enum Direction
@@ -18,10 +18,10 @@ public class TeleopDriver
         BACKWARD
     }
 
-    public TeleopDriver(OpMode opMode, DriveTrain driveTrain)
+    public TeleopDriver(OpMode opMode, Drivetrain drivetrain)
     {
         this.opMode = opMode;
-        this.driveTrain = driveTrain;
+        this.drivetrain = drivetrain;
     }
 
     public float getMaxSpeed()
@@ -51,11 +51,11 @@ public class TeleopDriver
 
         if(direction == Direction.FORWARD)
         {
-            driveTrain.setPowers(left, right);
+            drivetrain.setPowers(left, right);
         }
         else
         {
-            driveTrain.setPowers(-right, -left);
+            drivetrain.setPowers(-right, -left);
         }
     }
 
@@ -66,6 +66,6 @@ public class TeleopDriver
 
     @Override
     public String toString() {
-        return "max speed: " + String.format("%.2f", maxSpeed) + "\n" + driveTrain;
+        return "max speed: " + String.format("%.2f", maxSpeed) + "\n" + drivetrain;
     }
 }

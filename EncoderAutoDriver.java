@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.FTCRC_Extensions;
+package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -8,15 +8,15 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  */
 public class EncoderAutoDriver extends AutoDriver {
 
-    public EncoderAutoDriver(LinearOpMode linearOpMode, DriveTrain driveTrain) {
-        super(linearOpMode, driveTrain);
+    public EncoderAutoDriver(LinearOpMode linearOpMode, Drivetrain drivetrain) {
+        super(linearOpMode, drivetrain);
     }
 
     @Override
     public AutoDriver drive_forward_implementation(int encoderCount) {
 
-        driveTrain.setPowers(power, power);
-        while(driveTrain.getLeftEncoderCount() < encoderCount &&
+        drivetrain.setPowers(power, power);
+        while(drivetrain.getLeftEncoderCount() < encoderCount &&
                !eStop && opMode.opModeIsActive()) {
         }
         return this;
@@ -24,8 +24,8 @@ public class EncoderAutoDriver extends AutoDriver {
 
     @Override
     public AutoDriver drive_backward_implementation(int encoderCount) {
-        driveTrain.setPowers(-power, -power);
-        while(driveTrain.getLeftEncoderCount() > encoderCount &&
+        drivetrain.setPowers(-power, -power);
+        while(drivetrain.getLeftEncoderCount() > encoderCount &&
                !eStop && opMode.opModeIsActive()) {
         }
         return this;
@@ -33,8 +33,8 @@ public class EncoderAutoDriver extends AutoDriver {
 
     @Override
     public AutoDriver turn_clockwise_implementation(int encoderCount) {
-        driveTrain.setPowers(power, -power);
-        while(driveTrain.getLeftEncoderCount() < encoderCount &&
+        drivetrain.setPowers(power, -power);
+        while(drivetrain.getLeftEncoderCount() < encoderCount &&
               !eStop && opMode.opModeIsActive()) {
         }
         return this;
@@ -42,8 +42,8 @@ public class EncoderAutoDriver extends AutoDriver {
 
     @Override
     public AutoDriver turn_counterclockwise_implementation(int encoderCount) {
-        driveTrain.setPowers(-power, power);
-        while(driveTrain.getRightEncoderCount() < encoderCount &&
+        drivetrain.setPowers(-power, power);
+        while(drivetrain.getRightEncoderCount() < encoderCount &&
               !eStop && opMode.opModeIsActive()) {
         }
         return this;

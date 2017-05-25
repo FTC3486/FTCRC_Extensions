@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.FTCRC_Extensions;
+package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -10,9 +10,9 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 public class OpticalAutoDriver extends AutoDriver {
     OpticalDistanceSensor opticalDistanceSensor;
 
-    public OpticalAutoDriver(LinearOpMode linearOpMode, DriveTrain driveTrain,
+    public OpticalAutoDriver(LinearOpMode linearOpMode, Drivetrain drivetrain,
                              String opticalDistanceSensor, HardwareMap hardwareMap) {
-        super(linearOpMode, driveTrain);
+        super(linearOpMode, drivetrain);
         this.opticalDistanceSensor = hardwareMap.opticalDistanceSensor.get(opticalDistanceSensor);
 
     }
@@ -24,10 +24,10 @@ public class OpticalAutoDriver extends AutoDriver {
 
     @Override
     public AutoDriver drive_backward_implementation(int lightValue) {
-        driveTrain.setPowers(-power, -power);
+        drivetrain.setPowers(-power, -power);
         while (this.opticalDistanceSensor.getLightDetected() <= lightValue &&
                 !eStop && opMode.opModeIsActive()) {}
-        driveTrain.haltDrive();
+        drivetrain.haltDrive();
         return this;
     }
 

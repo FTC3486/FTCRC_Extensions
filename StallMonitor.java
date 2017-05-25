@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.FTCRC_Extensions;
+package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,20 +24,20 @@ class StallMonitor {
         int rightThresholdConstant = 125;
 
         int getLeftThreshold() {
-            return (int) (leftThresholdConstant * autoDriver.driveTrain.getLeftSpeed());
+            return (int) (leftThresholdConstant * autoDriver.drivetrain.getLeftSpeed());
         }
 
         int getRightThreshold() {
-            return (int) (rightThresholdConstant * autoDriver.driveTrain.getRightSpeed());
+            return (int) (rightThresholdConstant * autoDriver.drivetrain.getRightSpeed());
         }
 
         private boolean is_stall_detected() {
             boolean isStallDetected = false;
 
-            if (Math.abs(previousLeftCounts - autoDriver.driveTrain.getLeftEncoderCount()) <= getLeftThreshold()) {
+            if (Math.abs(previousLeftCounts - autoDriver.drivetrain.getLeftEncoderCount()) <= getLeftThreshold()) {
                 isStallDetected = true;
             }
-            if (Math.abs(previousRightCounts - autoDriver.driveTrain.getRightEncoderCount()) <= getRightThreshold()) {
+            if (Math.abs(previousRightCounts - autoDriver.drivetrain.getRightEncoderCount()) <= getRightThreshold()) {
                 isStallDetected = true;
             }
 
@@ -49,8 +49,8 @@ class StallMonitor {
             if (is_stall_detected()) {
                 autoDriver.e_stop();
             } else {
-                previousLeftCounts = (int) autoDriver.driveTrain.getLeftEncoderCount();
-                previousRightCounts = (int) autoDriver.driveTrain.getRightEncoderCount();
+                previousLeftCounts = (int) autoDriver.drivetrain.getLeftEncoderCount();
+                previousRightCounts = (int) autoDriver.drivetrain.getRightEncoderCount();
             }
         }
     }

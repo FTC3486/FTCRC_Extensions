@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.FTCRC_Extensions;
+package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -10,18 +10,18 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class ColorAutoDriver extends AutoDriver {
     ColorSensor colorSensor;
 
-    public ColorAutoDriver(LinearOpMode linearOpMode, DriveTrain driveTrain,
+    public ColorAutoDriver(LinearOpMode linearOpMode, Drivetrain drivetrain,
                              String colorSensor, HardwareMap hardwareMap) {
-        super(linearOpMode, driveTrain);
+        super(linearOpMode, drivetrain);
         this.colorSensor = hardwareMap.colorSensor.get(colorSensor);
 
     }
 
     @Override
     public AutoDriver drive_forward_implementation(int lightValue) {
-        driveTrain.setPowers(power, power);
+        drivetrain.setPowers(power, power);
 
-       while (driveTrain.getLeftEncoderCount() < 400 &&
+       while (drivetrain.getLeftEncoderCount() < 400 &&
                 !eStop && opMode.opModeIsActive()) {
         }
 
@@ -29,15 +29,15 @@ public class ColorAutoDriver extends AutoDriver {
                 !eStop && opMode.opModeIsActive()) {
         }
 
-        driveTrain.haltDrive();
+        drivetrain.haltDrive();
         return this;
     }
 
     @Override
     public AutoDriver drive_backward_implementation(int lightValue) {
-        driveTrain.setPowers(-power, -power);
+        drivetrain.setPowers(-power, -power);
 
-        while (driveTrain.getLeftEncoderCount() > -400 &&
+        while (drivetrain.getLeftEncoderCount() > -400 &&
                 !eStop && opMode.opModeIsActive()) {
         }
 
@@ -45,7 +45,7 @@ public class ColorAutoDriver extends AutoDriver {
                 !eStop && opMode.opModeIsActive()) {
         }
 
-        driveTrain.haltDrive();
+        drivetrain.haltDrive();
         return this;
     }
 
