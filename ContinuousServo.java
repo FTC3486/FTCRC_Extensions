@@ -5,6 +5,15 @@ import com.qualcomm.robotcore.hardware.Servo;
 /**
  * Created by Matthew on 2/2/2016.
  */
-public abstract class ContinuousServo implements Servo {
-    // TODO: Figure out how to implement this, or if we even need it anymore
+public class ContinuousServo {
+    private Servo servo;
+
+    public ContinuousServo(Servo servo)
+    {
+       this.servo = servo;
+    }
+
+    public void setPower(double power) {
+        servo.setPosition(power/2 + 0.5);
+    }
 }
