@@ -7,21 +7,62 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
  * Edited by Matthew on 3/6/2017.
  */
 
-public class OpticalDistanceAutoDriver {
+public class OpticalDistanceAutoDriver extends AutoDriver
+{
     private HardwareConfiguration hw;
 
     public OpticalDistanceAutoDriver(HardwareConfiguration hw)
     {
-        this.hw = hw;
+        super(hw);
     }
 
-    public void driveUntilLine(OpticalDistanceSensor opticalDistanceSensor, double lightValue, double power) {
-        while (opticalDistanceSensor.getLightDetected() < lightValue && hw.opMode.opModeIsActive()) {
-            hw.drivetrain.setPowers(power, power);
+    public void squareUpToLine() throws InterruptedException
+    {
+        setupMotion("Squaring up to a line.");
+
+        hw.drivetrain.setPowers(0.1, 0.1);
+        while (hw.leftOpticalDistanceSensor.getLightDetected() < .06
+                && hw.rightOpticalDistanceSensor.getLightDetected() < .06 && hw.opMode.opModeIsActive())
+        {
+            // Continue driving forwards until either sensor finds a line or the opMode ends.
         }
+
         hw.drivetrain.haltDrive();
-        hw.gyroSensor.resetZAxisIntegrator();
-        hw.opMode.sleep(200);
-        hw.drivetrain.resetMotorEncoders();
+
+        // Check to see which sensor found the line first. If both found it at the same time,
+        // the robot is already aligned to the line and will adjust no further.
+
+        // If the left sensor found the line, and the right sensor did not.
+        if (hw.leftOpticalDistanceSensor.getLightDetected() >= .06 &&
+            hw.rightOpticalDistanceSensor.getLightDetected() < 0.06)
+        {
+            // Drive until the right sensor sees the line.
+            hw.drivetrain.setPowers(0, .1);
+            while (hw.rightOpticalDistanceSensor.getLightDetected() < .06) {}
+            hw.drivetrain.haltDrive();
+            hw.drivetrain.resetMotorEncoders();
+
+            // This short movement adjust the robot back straight, as the pivot turn can slightly
+            // adjust the position of the left side of the robot when the right side turns.
+            hw.drivetrain.setPowers(-0.1, 0);
+            while (hw.drivetrain.getLeftEncoderCount() > -50 && hw.opMode.opModeIsActive()) {}
+            hw.drivetrain.haltDrive();
+        }
+
+        // If the right sensor found the line, and the left sensor did not.
+        else if (hw.rightOpticalDistanceSensor.getLightDetected() >= 0.06 &&
+                 hw.leftOpticalDistanceSensor.getLightDetected() < 0.06)
+        {
+            hw.drivetrain.setPowers(0.1, 0);
+            while (hw.leftOpticalDistanceSensor.getLightDetected() < 0.06) {}
+            hw.drivetrain.haltDrive();
+
+            hw.drivetrain.resetMotorEncoders();
+            hw.drivetrain.setPowers(0.0, -0.1);
+            while (hw.drivetrain.getRightEncoderCount() > -50 && hw.opMode.opModeIsActive()) {}
+            hw.drivetrain.haltDrive();
+        }
+        
+        endMotion();
     }
 }
