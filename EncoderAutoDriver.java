@@ -1,52 +1,49 @@
 package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
-
 /**
  * Created by Jacob on 2/24/16.
  */
-public class EncoderAutoDriver extends AutoDriver {
-
-    public EncoderAutoDriver(LinearOpMode linearOpMode, Drivetrain drivetrain) {
-        super(linearOpMode, drivetrain);
+public class EncoderAutoDriver extends AutoDriver
+{
+    public EncoderAutoDriver(HardwareConfiguration hw)
+    {
+        super(hw);
     }
 
-    @Override
-    public AutoDriver drive_forward_implementation(int encoderCount) {
-
-        drivetrain.setPowers(power, power);
-        while(drivetrain.getLeftEncoderCount() < encoderCount &&
-               !eStop && opMode.opModeIsActive()) {
-        }
-        return this;
+    public void driveForwardToEncoderCount(int encoderCount) throws InterruptedException
+    {
+        setupMotion("Driving forward to encoder count.");
+        hw.drivetrain.setPowers(power, power);
+        while(hw.drivetrain.getLeftEncoderCount() < encoderCount &&
+               !eStop && hw.opMode.opModeIsActive()) {}
+        endMotion();
     }
 
-    @Override
-    public AutoDriver drive_backward_implementation(int encoderCount) {
-        drivetrain.setPowers(-power, -power);
-        while(drivetrain.getLeftEncoderCount() > encoderCount &&
-               !eStop && opMode.opModeIsActive()) {
-        }
-        return this;
+    public void driveBackwardToEncoderCount(int encoderCount) throws InterruptedException
+    {
+        setupMotion("Driving backwards to encoder count.");
+        hw.drivetrain.setPowers(-power, -power);
+        while(hw.drivetrain.getLeftEncoderCount() > encoderCount &&
+               !eStop && hw.opMode.opModeIsActive()) {}
+        endMotion();
     }
 
-    @Override
-    public AutoDriver turn_clockwise_implementation(int encoderCount) {
-        drivetrain.setPowers(power, -power);
-        while(drivetrain.getLeftEncoderCount() < encoderCount &&
-              !eStop && opMode.opModeIsActive()) {
-        }
-        return this;
+    public void turnClockwiseToEncoderCount(int encoderCount) throws InterruptedException
+    {
+        setupMotion("Turning clockwise to encoder count.");
+        hw.drivetrain.setPowers(power, -power);
+        while(hw.drivetrain.getLeftEncoderCount() < encoderCount &&
+              !eStop && hw.opMode.opModeIsActive()) {}
+        endMotion();
     }
 
-    @Override
-    public AutoDriver turn_counterclockwise_implementation(int encoderCount) {
-        drivetrain.setPowers(-power, power);
-        while(drivetrain.getRightEncoderCount() < encoderCount &&
-              !eStop && opMode.opModeIsActive()) {
-        }
-        return this;
+    public void turnCounterclockwiseToEncoderCount(int encoderCount) throws InterruptedException
+    {
+        setupMotion("Turning counterclockwise to encoder count.");
+        hw.drivetrain.setPowers(-power, power);
+        while(hw.drivetrain.getRightEncoderCount() < encoderCount &&
+              !eStop && hw.opMode.opModeIsActive()) {}
+        endMotion();
     }
 }
 
