@@ -9,8 +9,6 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
 public class OpticalDistanceAutoDriver extends AutoDriver
 {
-    private HardwareConfiguration hw;
-
     public OpticalDistanceAutoDriver(HardwareConfiguration hw)
     {
         super(hw);
