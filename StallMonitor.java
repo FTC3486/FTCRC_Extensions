@@ -24,20 +24,20 @@ class StallMonitor {
         int rightThresholdConstant = 125;
 
         int getLeftThreshold() {
-            return (int) (leftThresholdConstant * autoDriver.drivetrain.getLeftSpeed());
+            return (int) (leftThresholdConstant * autoDriver.hw.drivetrain.getLeftSpeed());
         }
 
         int getRightThreshold() {
-            return (int) (rightThresholdConstant * autoDriver.drivetrain.getRightSpeed());
+            return (int) (rightThresholdConstant * autoDriver.hw.drivetrain.getRightSpeed());
         }
 
-        private boolean is_stall_detected() {
+        private boolean isStallDetected() {
             boolean isStallDetected = false;
 
-            if (Math.abs(previousLeftCounts - autoDriver.drivetrain.getLeftEncoderCount()) <= getLeftThreshold()) {
+            if (Math.abs(previousLeftCounts - autoDriver.hw.drivetrain.getLeftEncoderCount()) <= getLeftThreshold()) {
                 isStallDetected = true;
             }
-            if (Math.abs(previousRightCounts - autoDriver.drivetrain.getRightEncoderCount()) <= getRightThreshold()) {
+            if (Math.abs(previousRightCounts - autoDriver.hw.drivetrain.getRightEncoderCount()) <= getRightThreshold()) {
                 isStallDetected = true;
             }
 
@@ -46,11 +46,11 @@ class StallMonitor {
 
         @Override
         public void run() {
-            if (is_stall_detected()) {
-                autoDriver.e_stop();
+            if (isStallDetected()) {
+                autoDriver.eStop();
             } else {
-                previousLeftCounts = (int) autoDriver.drivetrain.getLeftEncoderCount();
-                previousRightCounts = (int) autoDriver.drivetrain.getRightEncoderCount();
+                previousLeftCounts = (int) autoDriver.hw.drivetrain.getLeftEncoderCount();
+                previousRightCounts = (int) autoDriver.hw.drivetrain.getRightEncoderCount();
             }
         }
     }
@@ -65,12 +65,12 @@ class StallMonitor {
         this.taskDelay = taskDelay;
     }
 
-    protected void start_monitoring() {
+    protected void startMonitoring() {
         task = new StallMonitorTask();
         stallTimer.scheduleAtFixedRate(task, taskDelay, taskFrequency);
     }
 
-    protected void stop_monitoring() {
+    protected void stopMonitoring() {
         task.cancel();
         stallTimer.purge();
     }
