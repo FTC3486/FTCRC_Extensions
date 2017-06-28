@@ -11,30 +11,35 @@ public abstract class AutoDriver {
     protected boolean eStop = false;
 
 
-    public AutoDriver(HardwareConfiguration hw) {
+    public AutoDriver(HardwareConfiguration hw)
+    {
         this.hw = hw;
     }
 
-    public void setWaitTimeBetweenMovements(int milliseconds) {
+    public void setWaitTimeBetweenMovements(int milliseconds)
+    {
         if (milliseconds < 0) throw new IllegalArgumentException("the wait time should always be positive");
         this.wait_time_ms = milliseconds;
     }
 
-    protected void setupMotion(String motion_description) {
+    protected void setupMotion(String motion_description)
+    {
         eStop = false;
         hw.opMode.telemetry.addData("AutoDriver", motion_description);
         hw.drivetrain.resetMotorEncoders();
-        stallMonitor.start_monitoring();
+        stallMonitor.startMonitoring();
     }
 
-    protected void endMotion() throws InterruptedException {
+    protected void endMotion()
+    {
         hw.drivetrain.haltDrive();
-        stallMonitor.stop_monitoring();
+        stallMonitor.stopMonitoring();
         hw.opMode.telemetry.addData("AutoDriver", "Halting");
         hw.opMode.sleep(wait_time_ms);
     }
 
-    protected void eStop() {
+    protected void eStop()
+    {
         eStop = true;
     }
 }

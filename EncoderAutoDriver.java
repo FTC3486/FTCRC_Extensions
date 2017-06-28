@@ -10,7 +10,7 @@ public class EncoderAutoDriver extends AutoDriver
         super(hw);
     }
 
-    public void driveForwardToEncoderCount(int encoderCount) throws InterruptedException
+    public void driveForwardToEncoderCount(int encoderCount)
     {
         setupMotion("Driving forward to encoder count.");
         hw.drivetrain.setPowers(power, power);
@@ -19,7 +19,7 @@ public class EncoderAutoDriver extends AutoDriver
         endMotion();
     }
 
-    public void driveBackwardToEncoderCount(int encoderCount) throws InterruptedException
+    public void driveBackwardToEncoderCount(int encoderCount)
     {
         setupMotion("Driving backwards to encoder count.");
         hw.drivetrain.setPowers(-power, -power);
@@ -28,7 +28,7 @@ public class EncoderAutoDriver extends AutoDriver
         endMotion();
     }
 
-    public void turnClockwiseToEncoderCount(int encoderCount) throws InterruptedException
+    public void turnClockwiseToEncoderCount(int encoderCount)
     {
         setupMotion("Turning clockwise to encoder count.");
         hw.drivetrain.setPowers(power, -power);
@@ -37,7 +37,7 @@ public class EncoderAutoDriver extends AutoDriver
         endMotion();
     }
 
-    public void turnCounterclockwiseToEncoderCount(int encoderCount) throws InterruptedException
+    public void turnCounterclockwiseToEncoderCount(int encoderCount)
     {
         setupMotion("Turning counterclockwise to encoder count.");
         hw.drivetrain.setPowers(-power, power);

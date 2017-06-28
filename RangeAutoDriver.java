@@ -14,6 +14,7 @@ public class RangeAutoDriver {
     }
 
     public void wallFollowForwards(double power, double rangeCm, int encodercounts){
+        //setupMotion();
         double startPositionLeft = hw.drivetrain.getLeftEncoderCount();//Starting position
         double startPositionRight = hw.drivetrain.getRightEncoderCount();
 
@@ -41,6 +42,7 @@ public class RangeAutoDriver {
         hw.gyroSensor.resetZAxisIntegrator();
         hw.opMode.sleep(200);
         hw.drivetrain.resetMotorEncoders();
+        //endMotion();
     }
 
     public void wallFollowBackwards(double power, double rangeCm, int encodercounts){
@@ -73,8 +75,9 @@ public class RangeAutoDriver {
     }
 
     public void driveForwardsUntilDistance(double distance, double power) {
+        hw.drivetrain.setPowers(power, power);
         while (hw.frontRangeSensor.getUltrasonicRange() > distance && hw.opMode.opModeIsActive()) {
-            hw.drivetrain.setPowers(power, power);
+           //
         }
         hw.drivetrain.haltDrive();
         hw.gyroSensor.resetZAxisIntegrator();

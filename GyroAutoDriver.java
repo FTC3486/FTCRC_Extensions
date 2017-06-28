@@ -18,7 +18,7 @@ public class GyroAutoDriver extends AutoDriver
         return sensorValue;
     }
 
-    public void driveStraightForwards(float distance, double power) throws InterruptedException
+    public void driveStraightForwards(float distance, double power)
     {
         setupMotion("Driving straight forwards using the gyro sensor.");
         double target = hw.gyroSensor.getIntegratedZValue();
@@ -34,7 +34,7 @@ public class GyroAutoDriver extends AutoDriver
         endMotion();
     }
 
-    public void driveStraightBackwards(float distance, double power) throws InterruptedException
+    public void driveStraightBackwards(float distance, double power)
     {
         setupMotion("Driving straight backwards using the gyro sensor.");
         double target = hw.gyroSensor.getIntegratedZValue();  //Starting direction
@@ -50,7 +50,7 @@ public class GyroAutoDriver extends AutoDriver
         endMotion();
     }
 
-    public void turn(int target) throws InterruptedException
+    public void turn(int target)
     {
         setupMotion("Turning using gyro.");
         double gyroHeading = this.getAdjustedHeading();
