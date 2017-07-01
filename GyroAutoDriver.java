@@ -22,14 +22,20 @@ public class GyroAutoDriver extends AutoDriver
     {
         setupMotion("Driving straight forwards using the gyro sensor.");
         double target = hw.gyroSensor.getIntegratedZValue();
-
+        hw.drivetrain.setPowers(power, power);
+        int checkCount = 0;
         while (hw.drivetrain.getLeftEncoderCount() < hw.drivetrain.convertInchesToEncoderCounts(distance)
                 && hw.drivetrain.getRightEncoderCount() < hw.drivetrain.convertInchesToEncoderCounts(distance)
                 && hw.opMode.opModeIsActive())
         {
+            checkCount++;
             int currentHeading = hw.gyroSensor.getIntegratedZValue();
-            hw.drivetrain.setPowers(power + (currentHeading - target) / 20,
-                                    power - (currentHeading - target) / 20);
+            hw.drivetrain.setPowers(power + (currentHeading - target) / 50,
+                                    power - (currentHeading - target) / 50);
+            hw.opMode.telemetry.addData("Times checked:", checkCount);
+            hw.opMode.telemetry.addData("Gyro Target:", target);
+            hw.opMode.telemetry.addData("Gyro Heading:", currentHeading);
+            hw.opMode.telemetry.update();
         }
         endMotion();
     }
@@ -39,13 +45,13 @@ public class GyroAutoDriver extends AutoDriver
         setupMotion("Driving straight backwards using the gyro sensor.");
         double target = hw.gyroSensor.getIntegratedZValue();  //Starting direction
 
-        while (hw.drivetrain.getLeftEncoderCount() > hw.drivetrain.convertInchesToEncoderCounts(distance) &&
-                hw.drivetrain.getRightEncoderCount() > hw.drivetrain.convertInchesToEncoderCounts(distance) &&
+        while (hw.drivetrain.getLeftEncoderCount() > -hw.drivetrain.convertInchesToEncoderCounts(distance) &&
+                hw.drivetrain.getRightEncoderCount() > -hw.drivetrain.convertInchesToEncoderCounts(distance) &&
                 hw.opMode.opModeIsActive())
         {
             int currentHeading = hw.gyroSensor.getIntegratedZValue();  //Current direction
-            hw.drivetrain.setPowers(power + (currentHeading - target) / 20,
-                                    power - (currentHeading - target) / 20);
+            hw.drivetrain.setPowers(-power + (currentHeading - target) / 50,
+                                    -power - (currentHeading - target) / 50);
         }
         endMotion();
     }

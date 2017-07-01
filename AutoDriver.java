@@ -43,5 +43,6 @@ public abstract class AutoDriver {
     protected void eStop()
     {
         eStop = true;
+        endMotion();
     }
 }
