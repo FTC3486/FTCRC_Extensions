@@ -10,7 +10,7 @@ class StallMonitor {
     AutoDriver autoDriver;
     Timer stallTimer = new Timer();
     StallMonitorTask task;
-    private int taskFrequency = 500;
+    private int taskFrequency = 1000;
     private int taskDelay = 1000;
 
     protected StallMonitor(AutoDriver autoDriver) {
@@ -24,11 +24,11 @@ class StallMonitor {
         int rightThresholdConstant = 125;
 
         int getLeftThreshold() {
-            return (int) (leftThresholdConstant * autoDriver.hw.drivetrain.getLeftSpeed());
+            return (int) (leftThresholdConstant);
         }
 
         int getRightThreshold() {
-            return (int) (rightThresholdConstant * autoDriver.hw.drivetrain.getRightSpeed());
+            return (int) (rightThresholdConstant);
         }
 
         private boolean isStallDetected() {
