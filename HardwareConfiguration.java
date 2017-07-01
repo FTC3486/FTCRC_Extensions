@@ -80,7 +80,7 @@ public class HardwareConfiguration
 
         //Define auto drivers
         gyroAutoDriver = new GyroAutoDriver(this);
-        encoderAutoDriver = new EncoderAutoDriver(opMode, this.drivetrain);
+        encoderAutoDriver = new EncoderAutoDriver(this);
         rangeAutoDriver = new RangeAutoDriver(this);
         opticalDistanceAutoDriver = new OpticalDistanceAutoDriver(this);
     }
