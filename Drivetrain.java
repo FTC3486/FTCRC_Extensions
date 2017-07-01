@@ -41,8 +41,8 @@ public class Drivetrain {
     }
 
     public static class Builder {
-        private double wheelDiameter = 4.0;
-        private double gearRatio = 1.19;
+        private double wheelDiameter = 4.31; // Adjusted as a correction factor
+        private double gearRatio = 1.16;
         // 1120 is the number for the AndyMark allMotors. Tetrix Motors are 1440 PPR
         private int encoderCountsPerDriverGearRotation = 1120;
         private final List<DcMotor> leftMotors = new LinkedList<>();
@@ -140,7 +140,7 @@ public class Drivetrain {
     }
 
     protected long convertInchesToEncoderCounts(float distance) {
-        return Math.round(((distance / (Math.PI * wheelDiameter)) * gearRatio) /
+        return Math.round(((distance / (Math.PI * wheelDiameter)) / gearRatio) *
                 encoderCountsPerDriverGearRotation);
     }
 
