@@ -26,6 +26,7 @@ public abstract class AutoDriver {
     {
         eStop = false;
         hw.opMode.telemetry.addData("AutoDriver", motion_description);
+        hw.opMode.telemetry.update();
         hw.drivetrain.resetMotorEncoders();
         stallMonitor.startMonitoring();
     }
@@ -35,6 +36,7 @@ public abstract class AutoDriver {
         hw.drivetrain.haltDrive();
         stallMonitor.stopMonitoring();
         hw.opMode.telemetry.addData("AutoDriver", "Halting");
+        hw.opMode.telemetry.update();
         hw.opMode.sleep(wait_time_ms);
     }
 
