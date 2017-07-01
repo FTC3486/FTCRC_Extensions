@@ -7,9 +7,21 @@ package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
 
 public class OpticalDistanceAutoDriver extends AutoDriver
 {
+    private double lightValue = 0.06;
+
     public OpticalDistanceAutoDriver(HardwareConfiguration hw)
     {
         super(hw);
+    }
+
+    public double getLightValue()
+    {
+        return lightValue;
+    }
+
+    public void setLightValue(double lightValue)
+    {
+        this.lightValue = lightValue;
     }
 
     public void squareUpToLine() throws InterruptedException
@@ -17,8 +29,8 @@ public class OpticalDistanceAutoDriver extends AutoDriver
         setupMotion("Squaring up to a line.");
 
         hw.drivetrain.setPowers(0.1, 0.1);
-        while (hw.leftOpticalDistanceSensor.getLightDetected() < .06
-                && hw.rightOpticalDistanceSensor.getLightDetected() < .06 && hw.opMode.opModeIsActive())
+        while (hw.leftOpticalDistanceSensor.getLightDetected() < lightValue
+                && hw.rightOpticalDistanceSensor.getLightDetected() < lightValue && hw.opMode.opModeIsActive())
         {
             // Continue driving forwards until either sensor finds a line or the opMode ends.
         }
@@ -29,12 +41,12 @@ public class OpticalDistanceAutoDriver extends AutoDriver
         // the robot is already aligned to the line and will adjust no further.
 
         // If the left sensor found the line, and the right sensor did not.
-        if (hw.leftOpticalDistanceSensor.getLightDetected() >= .06 &&
-            hw.rightOpticalDistanceSensor.getLightDetected() < 0.06)
+        if (hw.leftOpticalDistanceSensor.getLightDetected() >= lightValue &&
+            hw.rightOpticalDistanceSensor.getLightDetected() < lightValue)
         {
             // Drive until the right sensor sees the line.
             hw.drivetrain.setPowers(0, .1);
-            while (hw.rightOpticalDistanceSensor.getLightDetected() < .06) {}
+            while (hw.rightOpticalDistanceSensor.getLightDetected() < lightValue) {}
             hw.drivetrain.haltDrive();
             hw.drivetrain.resetMotorEncoders();
 
@@ -46,11 +58,11 @@ public class OpticalDistanceAutoDriver extends AutoDriver
         }
 
         // If the right sensor found the line, and the left sensor did not.
-        else if (hw.rightOpticalDistanceSensor.getLightDetected() >= 0.06 &&
-                 hw.leftOpticalDistanceSensor.getLightDetected() < 0.06)
+        else if (hw.rightOpticalDistanceSensor.getLightDetected() >= lightValue &&
+                 hw.leftOpticalDistanceSensor.getLightDetected() < lightValue)
         {
             hw.drivetrain.setPowers(0.1, 0);
-            while (hw.leftOpticalDistanceSensor.getLightDetected() < 0.06) {}
+            while (hw.leftOpticalDistanceSensor.getLightDetected() < lightValue) {}
             hw.drivetrain.haltDrive();
 
             hw.drivetrain.resetMotorEncoders();
