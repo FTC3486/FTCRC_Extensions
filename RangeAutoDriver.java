@@ -10,66 +10,32 @@ public class RangeAutoDriver extends AutoDriver
     {
         super(hw);
     }
-
-    public void wallFollowForwards(double power, double rangeCm, float distance)
+    
+    public void squareUpToWall(double distance, double power)
     {
-        setupMotion("Following the wall forwards.");
+        setupMotion("Squaring up to a wall.");
 
-        while(hw.drivetrain.getLeftEncoderCount() < hw.drivetrain.convertInchesToEncoderCounts(distance) &&
-                hw.drivetrain.getRightEncoderCount() < hw.drivetrain.convertInchesToEncoderCounts(distance) &&
-                hw.opMode.opModeIsActive())
+        int initialLeftReading = hw.leftRangeSensor.getUltrasonicRange();
+        int initialRightReading = hw.rightRangeSensor.getUltrasonicRange();
+        int distanceToDrive = 0;
+        hw.opMode.telemetry.addData("InitialLeftReading:", initialLeftReading);
+        hw.opMode.telemetry.addData("InitialRightReading:", initialRightReading);
+
+        if(initialLeftReading > initialRightReading)
         {
-            double sideUltrasonicRange = hw.sideRangeSensor.getUltrasonicRange();
-
-            if(sideUltrasonicRange > rangeCm)
-            {
-                hw.drivetrain.setPowers(power, power - 0.005);
-            }
-            else if(sideUltrasonicRange < rangeCm)
-            {
-                hw.drivetrain.setPowers(power - 0.005, power);
-            }
+            hw.encoderAutoDriver.driveLeftSideToDistance( 1.0 * (initialLeftReading - initialRightReading));
+            distanceToDrive = hw.rightRangeSensor.getUltrasonicRange();
+            hw.opMode.telemetry.addData("distanceToDrive", distanceToDrive);
         }
-
-        endMotion();
-    }
-
-    public void wallFollowBackwards(double power, double rangeCm, float distance)
-    {
-        setupMotion("Following the wall backwards.");
-
-        while(hw.drivetrain.getLeftEncoderCount() < hw.drivetrain.convertInchesToEncoderCounts(distance) &&
-                hw.drivetrain.getRightEncoderCount() < hw.drivetrain.convertInchesToEncoderCounts(distance) &&
-                hw.opMode.opModeIsActive())
+        else if(initialRightReading > initialLeftReading)
         {
-            double sideUltrasonicRange = hw.sideRangeSensor.getUltrasonicRange();
-
-            if(sideUltrasonicRange > rangeCm)
-            {
-                hw.drivetrain.setPowers(power, power + 0.005);
-            }
-            else if(sideUltrasonicRange < rangeCm)
-            {
-                hw.drivetrain.setPowers(power + 0.005, power);
-            }
+            hw.encoderAutoDriver.driveRightSideToDistance( 1.0 * (initialRightReading - initialLeftReading));
+            distanceToDrive = hw.leftRangeSensor.getUltrasonicRange();
+            hw.opMode.telemetry.addData("distanceToDrive", distanceToDrive);
         }
-
-        endMotion();
-    }
-
-    public void driveForwardsUntilDistance(double distance, double power)
-    {
-        setupMotion("Driving forwards until distance");
-        hw.drivetrain.setPowers(power, power);
-        while (hw.frontRangeSensor.getUltrasonicRange() > distance && hw.opMode.opModeIsActive()) {}
-        endMotion();
-    }
-
-    public void driveBackwardsUntilDistance(double distance, double power)
-    {
-        setupMotion("Driving backwards until distance.");
-        hw.drivetrain.setPowers(power, power);
-        while (hw.frontRangeSensor.getUltrasonicRange() < distance && hw.opMode.opModeIsActive()) {}
+        hw.opMode.telemetry.update();
+        hw.opMode.sleep(5000);
+        hw.encoderAutoDriver.driveToDistance(distanceToDrive - 20);
         endMotion();
     }
 }
