@@ -33,8 +33,8 @@ public class HardwareConfiguration
     public OpticalDistanceSensor leftOpticalDistanceSensor;
     public OpticalDistanceSensor rightOpticalDistanceSensor;
     public ModernRoboticsI2cGyro gyroSensor;
-    public RangeSensor sideRangeSensor;
-    public RangeSensor frontRangeSensor;
+    public RangeSensor leftRangeSensor;
+    public RangeSensor rightRangeSensor;
 
     //Auto Drivers
     public GyroAutoDriver gyroAutoDriver;
@@ -75,8 +75,8 @@ public class HardwareConfiguration
         leftOpticalDistanceSensor = opMode.hardwareMap.opticalDistanceSensor.get("Left ods");
         rightOpticalDistanceSensor = opMode.hardwareMap.opticalDistanceSensor.get("Right ods");
         gyroSensor = (ModernRoboticsI2cGyro) opMode.hardwareMap.gyroSensor.get("gyroSensor");
-        frontRangeSensor = new RangeSensor("Range 1", 0x28, opMode.hardwareMap);
-        sideRangeSensor = new RangeSensor("Range 2", 0x2a, opMode.hardwareMap);
+        rightRangeSensor = new RangeSensor("Range 1", 0x28, opMode.hardwareMap);
+        leftRangeSensor = new RangeSensor("Range 2", 0x2a, opMode.hardwareMap);
 
         //Define auto drivers
         gyroAutoDriver = new GyroAutoDriver(this);
