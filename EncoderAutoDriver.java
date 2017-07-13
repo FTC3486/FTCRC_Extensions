@@ -10,39 +10,38 @@ public class EncoderAutoDriver extends AutoDriver
         super(hw);
     }
 
-    public void driveForwardToEncoderCount(int encoderCount)
+    public void driveLeftSideToDistance(double distance)
     {
-        setupMotion("Driving forward to encoder count.");
-        hw.drivetrain.setPowers(power, power);
-        while(hw.drivetrain.getLeftEncoderCount() < encoderCount &&
-               !eStop && hw.opMode.opModeIsActive()) {}
+        distance /= 2.54;
+        setupMotion("Driving to set distance.");
+        hw.drivetrain.setPowers(0.3, 0.0);
+        while(hw.drivetrain.getLeftEncoderCount() < hw.drivetrain.convertInchesToEncoderCounts(distance) && hw.opMode.opModeIsActive())
+        {}
+        hw.drivetrain.haltDrive();
+
         endMotion();
     }
 
-    public void driveBackwardToEncoderCount(int encoderCount)
+    public void driveRightSideToDistance(double distance)
     {
+        distance /= 2.54;
+        setupMotion("Driving to set distance.");
+        hw.drivetrain.setPowers(0.0, 0.3);
+        while(hw.drivetrain.getRightEncoderCount() < hw.drivetrain.convertInchesToEncoderCounts(distance) && hw.opMode.opModeIsActive())
+        {}
+        hw.drivetrain.haltDrive();
+
+        endMotion();
+    }
+
+    public void driveToDistance(double distance)
+    {
+        distance /= 2.54;
         setupMotion("Driving backwards to encoder count.");
-        hw.drivetrain.setPowers(-power, -power);
-        while(hw.drivetrain.getLeftEncoderCount() > encoderCount &&
-               !eStop && hw.opMode.opModeIsActive()) {}
-        endMotion();
-    }
-
-    public void turnClockwiseToEncoderCount(int encoderCount)
-    {
-        setupMotion("Turning clockwise to encoder count.");
-        hw.drivetrain.setPowers(power, -power);
-        while(hw.drivetrain.getLeftEncoderCount() < encoderCount &&
-              !eStop && hw.opMode.opModeIsActive()) {}
-        endMotion();
-    }
-
-    public void turnCounterclockwiseToEncoderCount(int encoderCount)
-    {
-        setupMotion("Turning counterclockwise to encoder count.");
-        hw.drivetrain.setPowers(-power, power);
-        while(hw.drivetrain.getRightEncoderCount() < encoderCount &&
-              !eStop && hw.opMode.opModeIsActive()) {}
+        hw.drivetrain.setPowers(0.3, 0.3);
+        while(hw.drivetrain.getLeftEncoderCount() < hw.drivetrain.convertInchesToEncoderCounts(distance)
+                && hw.drivetrain.getRightEncoderCount() < hw.drivetrain.convertInchesToEncoderCounts(distance)
+                && !eStop && hw.opMode.opModeIsActive()) {}
         endMotion();
     }
 }

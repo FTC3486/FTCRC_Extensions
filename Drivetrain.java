@@ -139,7 +139,7 @@ public class Drivetrain {
         }
     }
 
-    protected long convertInchesToEncoderCounts(float distance) {
+    protected long convertInchesToEncoderCounts(double distance) {
         return Math.round(((distance / (Math.PI * wheelDiameter)) / gearRatio) *
                 encoderCountsPerDriverGearRotation);
     }
