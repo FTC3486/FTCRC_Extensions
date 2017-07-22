@@ -35,6 +35,7 @@ public class RangeAutoDriver extends AutoDriver
         int initialLeftReading = hw.leftRangeSensor.getUltrasonicRange();
         int initialRightReading = hw.rightRangeSensor.getUltrasonicRange();
         int distanceToDrive = 0;
+        double correctionFactor = 20;
 
         // Measure difference between the 2 sides and corrects the further side
         // by driving that side farther to make the distances from the wall the same.
@@ -55,8 +56,8 @@ public class RangeAutoDriver extends AutoDriver
         }
         hw.opMode.sleep(5000);
 
-        // 20 is subtracted from the distanceToDrive so the robot doesn't run into the wall.
-        hw.encoderAutoDriver.driveToDistance(distanceToDrive - 20);
+        // correctionFactor is subtracted from the distanceToDrive so the robot doesn't run into the wall.
+        hw.encoderAutoDriver.driveToDistance(distanceToDrive - correctionFactor);
         endMotion();
     }
 }
