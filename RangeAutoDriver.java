@@ -1,7 +1,24 @@
 package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
 
 /**
- * Created by Matthew on 3/8/2017.
+ * Filename: RangeAutoDriver.java
+ *
+ * Description:
+ *     This class contains the methods that use the range sensors for predefined autonomous movements.
+ *
+ * Use:
+ *     A range auto driver object is created in a hardware configuration and accessed
+ * in an autonomous program for use.
+ *
+ * Example: robot.hardwareConfiguration.rangeAutoDriver.squareUpToWall()
+ *
+ * Requirements:
+ *     -2 range sensors, created and stored in the hardware configuration
+ *     -A wall
+ *
+ * Changelog:
+ *     -Edited and tested by Team 3486 on 7/8/2017.
+ *     -Edited file description and documentation 7/22/17
  */
 
 public class RangeAutoDriver extends AutoDriver
@@ -18,23 +35,27 @@ public class RangeAutoDriver extends AutoDriver
         int initialLeftReading = hw.leftRangeSensor.getUltrasonicRange();
         int initialRightReading = hw.rightRangeSensor.getUltrasonicRange();
         int distanceToDrive = 0;
-        hw.opMode.telemetry.addData("InitialLeftReading:", initialLeftReading);
-        hw.opMode.telemetry.addData("InitialRightReading:", initialRightReading);
 
+        // Measure difference between the 2 sides and corrects the further side
+        // by driving that side farther to make the distances from the wall the same.
+        // This also aligns the robot perpendicular to the wall.
         if(initialLeftReading > initialRightReading)
         {
             hw.encoderAutoDriver.driveLeftSideToDistance( 1.0 * (initialLeftReading - initialRightReading));
+
+            // distanceToDrive is how far the robot is from the wall.
             distanceToDrive = hw.rightRangeSensor.getUltrasonicRange();
-            hw.opMode.telemetry.addData("distanceToDrive", distanceToDrive);
         }
         else if(initialRightReading > initialLeftReading)
         {
             hw.encoderAutoDriver.driveRightSideToDistance( 1.0 * (initialRightReading - initialLeftReading));
+
+            // distanceToDrive is how far the robot is from the wall.
             distanceToDrive = hw.leftRangeSensor.getUltrasonicRange();
-            hw.opMode.telemetry.addData("distanceToDrive", distanceToDrive);
         }
-        hw.opMode.telemetry.update();
         hw.opMode.sleep(5000);
+
+        // 20 is subtracted from the distanceToDrive so the robot doesn't run into the wall.
         hw.encoderAutoDriver.driveToDistance(distanceToDrive - 20);
         endMotion();
     }
