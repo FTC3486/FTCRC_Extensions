@@ -1,8 +1,27 @@
 package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
 
 /**
- * Created by Owner_2 on 12/31/2016.
- * Edited by Matthew on 3/6/2017.
+ * Filename: OpticalDistanceAutoDriver.java
+ *
+ * Description:
+ *     This class contains all of the predefined robot movements that use an optical distance sensor.
+ * This class contains methods such as squareUpToLine() which uses the optical distance sensors on
+ * the robot to align the robot perpendicular to a taped white line on the floor.
+ *
+ * Use:
+ *     An optical distance auto driver object is created in a hardware configuration and accessed
+ * in an autonomous program for use.
+ *
+ * Example: robot.hardwareConfiguration.opticalDistanceAutoDriver.squareUpToLine()
+ *
+ * Requirements:
+ *     -2 optical distance sensors, created and stored in the hardware configuration
+ *     -taped white line
+ *
+ * Changelog:
+ *     -Edited and tested by Team 3486 on 3/6/2017.
+ *     -Added comments 7/21/17
+ *     -Edited file description and documentation 7/22/17
  */
 
 public class OpticalDistanceAutoDriver extends AutoDriver
@@ -24,16 +43,16 @@ public class OpticalDistanceAutoDriver extends AutoDriver
         this.lightValue = lightValue;
     }
 
+
     public void squareUpToLine() throws InterruptedException
     {
         setupMotion("Squaring up to a line.");
 
         hw.drivetrain.setPowers(0.1, 0.1);
+
+        // Continue driving forwards until either sensor finds a line or the opMode ends.
         while (hw.leftOpticalDistanceSensor.getLightDetected() < lightValue
-                && hw.rightOpticalDistanceSensor.getLightDetected() < lightValue && hw.opMode.opModeIsActive())
-        {
-            // Continue driving forwards until either sensor finds a line or the opMode ends.
-        }
+                && hw.rightOpticalDistanceSensor.getLightDetected() < lightValue && hw.opMode.opModeIsActive()) {}
 
         hw.drivetrain.haltDrive();
 
@@ -61,10 +80,13 @@ public class OpticalDistanceAutoDriver extends AutoDriver
         else if (hw.rightOpticalDistanceSensor.getLightDetected() >= lightValue &&
                  hw.leftOpticalDistanceSensor.getLightDetected() < lightValue)
         {
+            // Drive until the left sensor sees the line.
             hw.drivetrain.setPowers(0.1, 0);
             while (hw.leftOpticalDistanceSensor.getLightDetected() < lightValue) {}
             hw.drivetrain.haltDrive();
 
+            // This short movement adjust the robot back straight, as the pivot turn can slightly
+            // adjust the position of the right side of the robot when the left side turns.
             hw.drivetrain.resetMotorEncoders();
             hw.drivetrain.setPowers(0.0, -0.1);
             while (hw.drivetrain.getRightEncoderCount() > -50 && hw.opMode.opModeIsActive()) {}
