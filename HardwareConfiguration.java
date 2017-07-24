@@ -1,5 +1,28 @@
 package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
 
+        /*
+        * Filename: HardwareConfiguration.java
+        *
+        * Description:
+        *     This class contains the methods that use the range sensors for predefined autonomous movements.
+        *
+        * Methods:
+        *     HardwareConfiguration
+        *           - Robot Components
+        *           - Sensors
+        *           - Auto Drivers
+        *           - Initialize Robot Components
+        *
+        *
+        * Setup Instructions:
+        *     - ?
+        *
+        * Changelog:
+        *     -Created by Team 3486 on 1/8/2017.
+        *     -Edited file description and documentation 7/23/17
+        */
+
+
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;

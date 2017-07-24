@@ -1,7 +1,27 @@
 package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
 
 /**
- * Created by Jacob on 2/24/16.
+
+ * Filename: AutoDriver.java
+ *
+ * Description:
+ *     This extension is the parent for all other Autodrivers called by all autonomous movements.
+ *     This class defines what happenes at the beginning and end of each movement.
+ *
+ * Methods:
+ *     setWaitTimeBetweenMovements(int milliseconds)
+ *     setupMotion(String motion_description)
+ *     endMotion()
+ *     eStop()
+ *
+ *
+ * Requirements:
+ *     - Hardware configuration
+ *
+ * Changelog:
+ *     -Created by Jacob on 2/24/16
+ *     -Edited file description and documentation 7/22/17
+ *
  */
 public abstract class AutoDriver {
     HardwareConfiguration hw;
@@ -21,6 +41,7 @@ public abstract class AutoDriver {
         if (milliseconds < 0) throw new IllegalArgumentException("the wait time should always be positive");
         this.wait_time_ms = milliseconds;
     }
+    // Creates setupMotion method - Resets encoders and then starts monitoring the robot for stalling.
 
     protected void setupMotion(String motion_description)
     {
@@ -31,6 +52,8 @@ public abstract class AutoDriver {
         stallMonitor.startMonitoring();
     }
 
+    // Creates endMotion method - Stops monitoring the robot for stalling.
+
     protected void endMotion()
     {
         hw.drivetrain.haltDrive();
@@ -39,6 +62,8 @@ public abstract class AutoDriver {
         hw.opMode.telemetry.update();
         hw.opMode.sleep(wait_time_ms);
     }
+
+    // Creates the eStop method to halt program.
 
     protected void eStop()
     {

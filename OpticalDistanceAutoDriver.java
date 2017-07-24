@@ -3,14 +3,13 @@ package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
 /**
  * Filename: OpticalDistanceAutoDriver.java
  *
+ *
  * Description:
  *     This class contains all of the predefined robot movements that use an optical distance sensor.
- * This class contains methods such as squareUpToLine() which uses the optical distance sensors on
- * the robot to align the robot perpendicular to a taped white line on the floor.
  *
- * Use:
- *     An optical distance auto driver object is created in a hardware configuration and accessed
- * in an autonomous program for use.
+ * Methods:
+ *     squareUpToLine - Uses the optical distance sensors on the robot to
+ *                      align the robot perpendicular to a taped white line on the floor.
  *
  * Example: robot.hardwareConfiguration.opticalDistanceAutoDriver.squareUpToLine()
  *

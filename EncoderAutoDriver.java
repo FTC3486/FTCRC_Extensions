@@ -6,15 +6,18 @@ package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
  * Description:
  *     This class contains the methods that use the encoders for predefined autonomous movements.
  *
- * Use:
- *     An encoder auto driver is created in a hardware configuration and accessed
- * in an autonomous program for use. Distances in inches.
+ * Methods:
+ *      driveLeftSideToDistance - Drives the left side a specified distance using motor encoders
+ *      driveRightSideToDistance - Drives the right side a specified distance using motor encoders
+ *      driveToDistance - Drives both sides a specified distance using motor encoders
  *
- * Example: robot.hardwareConfiguration.encoderAutoDriver.driveLeftSideToDistance()
+ * Example: robot.hardwareConfiguration.encoderAutoDriver.driveLeftSideToDistance(double distance)
+ * Distances in inches.
  *
  * Requirements:
- *     -Drive motors with encoders
- *     -A universe
+ *     - Drive motors with encoders
+ *     - An encoder auto driver is created in a hardware configuration and accessed
+ *       in an autonomous program for use.
  *
  * Changelog:
  *     -Edited and tested by Team 3486 on 7/8/2017.
@@ -33,6 +36,9 @@ public class EncoderAutoDriver extends AutoDriver
         setupMotion("Driving to set distance.");
         
         hw.drivetrain.setPowers(0.3, 0.0);
+
+        // Drives the left side converting our inches input to counts while the OpMode is active
+
         while(hw.drivetrain.getLeftEncoderCount() < hw.drivetrain.convertInchesToEncoderCounts(distance)
                 && hw.opMode.opModeIsActive())
         {}
@@ -46,6 +52,9 @@ public class EncoderAutoDriver extends AutoDriver
         setupMotion("Driving to set distance.");
 
         hw.drivetrain.setPowers(0.0, 0.3);
+
+        // Drives the Right side converting our inches input to counts while the OpMode is active
+
         while(hw.drivetrain.getRightEncoderCount() < hw.drivetrain.convertInchesToEncoderCounts(distance)
                 && hw.opMode.opModeIsActive())
         {}
@@ -59,6 +68,9 @@ public class EncoderAutoDriver extends AutoDriver
         setupMotion("Driving to set distance.");
 
         hw.drivetrain.setPowers(0.3, 0.3);
+
+        // Drives the both sides converting our inches input to counts while the OpMode is active
+
         while(hw.drivetrain.getLeftEncoderCount() < hw.drivetrain.convertInchesToEncoderCounts(distance)
                 && hw.drivetrain.getRightEncoderCount() < hw.drivetrain.convertInchesToEncoderCounts(distance)
                 && hw.opMode.opModeIsActive()) {}

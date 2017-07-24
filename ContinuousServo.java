@@ -13,6 +13,8 @@ public class ContinuousServo {
        this.servo = servo;
     }
 
+    //pos= forward and - =revese
+
     public void setPower(double power) {
         servo.setPosition(power/2 + 0.5);
     }

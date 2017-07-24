@@ -27,6 +27,8 @@ import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
     example, type robot.hardwareConfiguration.rangeSensor.getUltraSonicRange() (using the specific
     robot class, hardware configuration, and rangeSensor objects) to access the data from a specific
     sensor.
+
+    The second range sensor requires a different address to be programmed into the sensor.
  */
 
 

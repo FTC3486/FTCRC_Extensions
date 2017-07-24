@@ -6,15 +6,18 @@ package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
  * Description:
  *     This class contains the methods that use the range sensors for predefined autonomous movements.
  *
- * Use:
- *     A range auto driver object is created in a hardware configuration and accessed
- * in an autonomous program for use.
- *
+ * Functions:
+ *     squareUpToWall - From current location the robot will square up to the wall using the closest
+ *                      range sensor
+ *  *
  * Example: robot.hardwareConfiguration.rangeAutoDriver.squareUpToWall()
  *
  * Requirements:
- *     -2 range sensors, created and stored in the hardware configuration
- *     -A wall
+ *     - 2 range sensors, created and stored in the hardware configuration
+ *     - A wall
+ *     - A range auto driver object is created in a hardware configuration and accessed
+ *       in an autonomous program for use
+ *     - RangeSensor Extension created to manage more than one range sensors
  *
  * Changelog:
  *     -Edited and tested by Team 3486 on 7/8/2017.
