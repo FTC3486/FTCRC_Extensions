@@ -6,7 +6,7 @@ package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
  *
  * Description:
  *     This extension is the parent for all other Autodrivers called by all autonomous movements.
- *     This class defines what happenes at the beginning and end of each movement.
+ *     This class defines the beginning and end of each movement.
  *
  * Methods:
  *     setWaitTimeBetweenMovements(int milliseconds)
@@ -20,7 +20,7 @@ package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
  *
  * Changelog:
  *     -Created by Jacob on 2/24/16
- *     -Edited file description and documentation 7/22/17
+ *     -Edited file description and documentation 7/24/17
  *
  */
 public abstract class AutoDriver {

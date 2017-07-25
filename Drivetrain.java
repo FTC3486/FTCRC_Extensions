@@ -1,3 +1,33 @@
+/**
+ * Filename: Drivetrain.java
+ *
+ * Description:
+ *     This class contains the methods that use to drive the robot using predefined autonomous movements.
+ *
+ * Methods:
+ *     - haltDrive
+ *     - setMode
+ *     - setTargetPosition
+ *     - is Busy
+ *     - setPower
+ *     - resetMotorEncoder
+ *     - getLeftSpeed
+ *     - getRightSpeed
+ *     - toString
+ *
+ *  *
+ * Example: robot.hardwareConfiguration.rangeAutoDriver.squareUpToWall()
+ *
+ * Requirements:
+ *     - Drive motors with encoders
+ *     - An encoder auto driver is created in a hardware configuration and accessed
+ *       in an autonomous program for use.
+ *
+ * Changelog:
+ *     -Created a long time ago in a far away place when men used stone and chisel to code.
+ *     -Edited file description and documentation 7/24/17
+ */
+
 package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -39,6 +69,7 @@ public class Drivetrain {
             motor.setZeroPowerBehavior(builder.zeroPowerBehavior);
         }
     }
+    // Important configuration required to match the drive train - Wheel size, gear ration and type of motors.
 
     public static class Builder {
         private double wheelDiameter = 4.31; // Adjusted as a correction factor
@@ -97,15 +128,21 @@ public class Drivetrain {
         }
     }
 
+    // Stops the robot by setting all drive train motors to 0 power.
+
     public void haltDrive() {
         setPowers(0.0, 0.0);
     }
+
+    // Sets all motors to RunMode
 
     public void setMode(DcMotor.RunMode runMode) {
         for (DcMotor motor : allMotorsWithEncoders) {
             motor.setMode(runMode);
         }
     }
+
+    // Sets Target Position for left and right sides of the drive train.
 
     public void setTargetPosition(int leftTargetPosition, int rightTargetPosition) {
         for (DcMotor leftMotor : leftMotorsWithEncoders) {
@@ -117,6 +154,8 @@ public class Drivetrain {
         }
     }
 
+    //
+
     public boolean isBusy() {
         for (DcMotor motor : allMotorsWithEncoders) {
             if (motor.isBusy()) {
@@ -125,6 +164,8 @@ public class Drivetrain {
         }
         return false;
     }
+
+    // Sets Power for left and right sides of the drive train.
 
     public void setPowers(double leftSpeed, double rightSpeed) {
         this.leftSpeed = leftSpeed;
@@ -174,6 +215,8 @@ public class Drivetrain {
         return sumValue;
     }
 
+    //Resets the motor encoders for the left and right sides of the drive train.
+
     public void resetMotorEncoders() {
         for (DcMotor motor : allMotorsWithEncoders) {
             motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -181,9 +224,13 @@ public class Drivetrain {
         }
     }
 
+    //Returns the left speed.
+
     public double getLeftSpeed() {
         return leftSpeed;
     }
+
+    //Returns the Right speed.
 
     public double getRightSpeed() {
         return rightSpeed;

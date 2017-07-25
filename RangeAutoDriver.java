@@ -6,7 +6,7 @@ package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
  * Description:
  *     This class contains the methods that use the range sensors for predefined autonomous movements.
  *
- * Functions:
+ * Methods:
  *     squareUpToWall - From current location the robot will square up to the wall using the closest
  *                      range sensor
  *  *
