@@ -5,6 +5,7 @@ package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
         *
         * Description:
         *     This class contains the methods that use the range sensors for predefined autonomous movements.
+        *     Is utlized by the Robot.java class in order to program the Velocity Vortex robot
         *
         * Methods:
         *     HardwareConfiguration
@@ -15,11 +16,28 @@ package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
         *
         *
         * Setup Instructions:
-        *     - ?
+        *     -To add a servo type public Servo servoName; under the "//Servos" section below,
+        *     then go to the "//Define Servos" section and type servoName = opMode.hardwareMap.servo.get("servoName");
+        *     For an example you can find an example servo below
+        *
+        *     -To add a motor type public DcMotor motorName; under the "//Motors" section below,
+        *     then go to the "//Define Motors" section and type motorName = opMode.hardwareMap.dcMotor.get("motorName");
+        *     For an example you can find an example motor below
+        *
+        *     -To add a sensor type public SensorType sensorName; in the "//Sensors" section below,
+        *     then go to the "//Define Sensors" section and type sensorName = opMode.hardwareMap.sensorType.get("sensorName");
+        *     It should be noted that the syntax for the last step varies slightly depending on the type of sensor being defined
+        *
+        *     -To add a submodule type public Submodule submodule; in the "//Robot Components" section below,
+        *     then go to the "//Define robot components" section and type submodule = new Submodule("submoduleName", opmode.hardwareMap);
+        *
+        *     -To add an auto driver type public AutoDriver autoDriver; in the "//Auto Drivers" section below,
+        *     then go to the "//Define Auto Drivers" section and type autoDriver = new autoDriver(this);
         *
         * Changelog:
         *     -Created by Team 3486 on 1/8/2017.
         *     -Edited file description and documentation 7/23/17
+        *     -Added Setup Instructions in the documentation 7/25/17
         */
 
 
@@ -28,6 +46,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Subsystems.BaconActivator;
 import org.firstinspires.ftc.teamcode.Subsystems.CapballHolder;
@@ -40,6 +59,12 @@ import org.firstinspires.ftc.teamcode.Subsystems.TuskGate;
 public class HardwareConfiguration
 {
     LinearOpMode opMode;
+
+    //Motors
+    public DcMotor exampleMotor;
+
+    //Servos
+    public Servo exampleServo;
 
     //Robot Components
     public Drivetrain drivetrain;
@@ -106,6 +131,12 @@ public class HardwareConfiguration
         encoderAutoDriver = new EncoderAutoDriver(this);
         rangeAutoDriver = new RangeAutoDriver(this);
         opticalDistanceAutoDriver = new OpticalDistanceAutoDriver(this);
+
+        //Define Motors
+        exampleMotor = opMode.hardwareMap.dcMotor.get("examplemotor");
+
+        //Define Servos
+        exampleServo = opMode.hardwareMap.servo.get("exampleservo");
     }
 
     void init() {
