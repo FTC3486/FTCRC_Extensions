@@ -41,12 +41,16 @@ package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
         */
 
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.I2cAddr;
+import com.qualcomm.robotcore.hardware.I2cDevice;
+import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
+import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Subsystems.BaconActivator;
 import org.firstinspires.ftc.teamcode.Subsystems.CapballHolder;
@@ -59,12 +63,6 @@ import org.firstinspires.ftc.teamcode.Subsystems.TuskGate;
 public class HardwareConfiguration
 {
     LinearOpMode opMode;
-
-    //Motors
-    public DcMotor exampleMotor;
-
-    //Servos
-    public Servo exampleServo;
 
     //Robot Components
     public Drivetrain drivetrain;
@@ -83,6 +81,9 @@ public class HardwareConfiguration
     public ModernRoboticsI2cGyro gyroSensor;
     public RangeSensor leftRangeSensor;
     public RangeSensor rightRangeSensor;
+
+    I2cDevice adafruitIMUDevice;
+    public BNO055IMU adafruitIMU;
 
     //Auto Drivers
     public GyroAutoDriver gyroAutoDriver;
@@ -126,17 +127,13 @@ public class HardwareConfiguration
         rightRangeSensor = new RangeSensor("Range 1", 0x28, opMode.hardwareMap);
         leftRangeSensor = new RangeSensor("Range 2", 0x2a, opMode.hardwareMap);
 
+        adafruitIMU = opMode.hardwareMap.get(BNO055IMU.class, "imu");
+
         //Define auto drivers
         gyroAutoDriver = new GyroAutoDriver(this);
         encoderAutoDriver = new EncoderAutoDriver(this);
         rangeAutoDriver = new RangeAutoDriver(this);
         opticalDistanceAutoDriver = new OpticalDistanceAutoDriver(this);
-
-        //Define Motors
-        exampleMotor = opMode.hardwareMap.dcMotor.get("examplemotor");
-
-        //Define Servos
-        exampleServo = opMode.hardwareMap.servo.get("exampleservo");
     }
 
     void init() {
