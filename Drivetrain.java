@@ -8,22 +8,19 @@
  *
  * Methods:
  *     - haltDrive
- *     - setMode
+ *     - setMode - Not used
  *     - setTargetPosition
- *     - isBusy
  *     - setPowers
  *     - convertInchesToEncoderCounts
  *     - getLeftEncoderCount
  *     - getRightEncoderCount()
  *     - resetMotorEncoder
- *     - getLeftSpeed
- *     - getRightSpeed
  *     - toString
  *
  *  *
  * Example:
  *
- * robot.hardwareConfiguration.getLeftEncoderCount();
+ * robot.hardwareConfiguration.drivetrain.getLeftEncoderCount();
  *
  * Requirements:
  *     - Drive motors with encoders
@@ -140,7 +137,7 @@ public class Drivetrain {
         setPowers(0.0, 0.0);
     }
 
-    // Sets all motors to RunMode
+    // Not currently used
 
     public void setMode(DcMotor.RunMode runMode) {
         for (DcMotor motor : allMotorsWithEncoders) {
@@ -158,17 +155,6 @@ public class Drivetrain {
         for (DcMotor rightMotor : rightMotorsWithEncoders) {
             rightMotor.setTargetPosition(rightTargetPosition);
         }
-    }
-
-    //
-
-    public boolean isBusy() {
-        for (DcMotor motor : allMotorsWithEncoders) {
-            if (motor.isBusy()) {
-                return true;
-            }
-        }
-        return false;
     }
 
     // Sets Power for left and right sides of the drive train.
@@ -228,18 +214,6 @@ public class Drivetrain {
             motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
-    }
-
-    //Returns the left speed.
-
-    public double getLeftSpeed() {
-        return leftSpeed;
-    }
-
-    //Returns the Right speed.
-
-    public double getRightSpeed() {
-        return rightSpeed;
     }
 
     @Override
