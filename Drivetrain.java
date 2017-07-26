@@ -2,26 +2,32 @@
  * Filename: Drivetrain.java
  *
  * Description:
- *     This class contains the methods that use to drive the robot using predefined autonomous movements.
+ *     This class makes a drivetrain out of any number of motors. This class gives
+ *     information about the motors such as encoder counts, and it is also used to
+ *     control the motors (for example, setPowers())
  *
  * Methods:
  *     - haltDrive
  *     - setMode
  *     - setTargetPosition
- *     - is Busy
- *     - setPower
+ *     - isBusy
+ *     - setPowers
+ *     - convertInchesToEncoderCounts
+ *     - getLeftEncoderCount
+ *     - getRightEncoderCount()
  *     - resetMotorEncoder
  *     - getLeftSpeed
  *     - getRightSpeed
  *     - toString
  *
  *  *
- * Example: robot.hardwareConfiguration.rangeAutoDriver.squareUpToWall()
+ * Example:
+ *
+ * robot.hardwareConfiguration.getLeftEncoderCount();
  *
  * Requirements:
  *     - Drive motors with encoders
- *     - An encoder auto driver is created in a hardware configuration and accessed
- *       in an autonomous program for use.
+ *
  *
  * Changelog:
  *     -Created a long time ago in a far away place when men used stone and chisel to code.
