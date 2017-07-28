@@ -42,6 +42,7 @@ package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
 
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -127,7 +128,15 @@ public class HardwareConfiguration
         rightRangeSensor = new RangeSensor("Range 1", 0x28, opMode.hardwareMap);
         leftRangeSensor = new RangeSensor("Range 2", 0x2a, opMode.hardwareMap);
 
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         adafruitIMU = opMode.hardwareMap.get(BNO055IMU.class, "imu");
+        adafruitIMU.initialize(parameters);
 
         //Define auto drivers
         gyroAutoDriver = new GyroAutoDriver(this);
