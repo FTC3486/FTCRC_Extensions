@@ -58,6 +58,20 @@ public class TeleopDriver
             drivetrain.setPowers(-right, -left);
         }
     }
+    public void half_speed_tank_drive(Gamepad gamepad, Direction direction)
+    {
+        double left = get_scaled_power_from_gamepad_stick(gamepad.left_stick_y)/2;
+        double right = get_scaled_power_from_gamepad_stick(gamepad.right_stick_y)/2;
+
+        if(direction == Direction.FORWARD)
+        {
+            drivetrain.setPowers(left, right);
+        }
+        else
+        {
+            drivetrain.setPowers(-right, -left);
+        }
+    }
 
     private double get_scaled_power_from_gamepad_stick(float stick)
     {
