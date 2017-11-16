@@ -60,7 +60,7 @@ public class TWAHardwareConfiguration
         glyphLift = new GlyphLift("GlyphLift", "LiftTouch", opMode.hardwareMap);
         relicLift = new RelicLift("RelicLift", opMode.hardwareMap);
         relicArm = new RelicArm("RelicArm", opMode.hardwareMap);
-       // relicClaw = new RelicClaw("ClawServo1","ClawServo2", opMode.hardwareMap);
+        relicClaw = new RelicClaw("ClawServo1","ClawServo2", "Pivot", opMode.hardwareMap);
 
         //Define sensors
 
