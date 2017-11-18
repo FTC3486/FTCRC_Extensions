@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.Subsystems.GlyphGrabber;
 import org.firstinspires.ftc.teamcode.Subsystems.GlyphLift;
+import org.firstinspires.ftc.teamcode.Subsystems.JewelArm;
 import org.firstinspires.ftc.teamcode.Subsystems.RelicArm;
 import org.firstinspires.ftc.teamcode.Subsystems.RelicClaw;
 import org.firstinspires.ftc.teamcode.Subsystems.RelicLift;
@@ -25,6 +26,7 @@ public class TWAHardwareConfiguration
     public RelicLift relicLift;
     public RelicArm relicArm;
     public RelicClaw relicClaw;
+    public JewelArm jewelArm;
     //Sensors
 
 
@@ -56,11 +58,12 @@ public class TWAHardwareConfiguration
                 .build();
 
         glyphGrabber = new GlyphGrabber("leftservo1","leftservo2","rightservo1","rightservo2", opMode.hardwareMap);
-        spinner = new Spinner("spinner", "SpinnerRotation", opMode.hardwareMap);
+        spinner = new Spinner("spinner", /*"SpinnerRotation",*/ opMode.hardwareMap);
         glyphLift = new GlyphLift("GlyphLift", "LiftTouch", opMode.hardwareMap);
         relicLift = new RelicLift("RelicLift", opMode.hardwareMap);
         relicArm = new RelicArm("RelicArm", opMode.hardwareMap);
         relicClaw = new RelicClaw("ClawServo1","ClawServo2", "Pivot", opMode.hardwareMap);
+        jewelArm = new JewelArm("JewelArm", "JewelColor", opMode.hardwareMap);
 
         //Define sensors
 
