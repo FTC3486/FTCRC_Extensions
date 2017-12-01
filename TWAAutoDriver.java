@@ -24,14 +24,14 @@ package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
  *
  */
 public abstract class TWAAutoDriver {
-    TWAHardwareConfiguration hw;
+    AutoTWAHardwareConfiguration hw;
     private TWAStallMonitor stallMonitor = new TWAStallMonitor(this);
     protected double power = 1.0D;
     private int wait_time_ms = 500;
     protected boolean eStop = false;
 
 
-    public TWAAutoDriver(TWAHardwareConfiguration hw)
+    public TWAAutoDriver(AutoTWAHardwareConfiguration hw)
     {
         this.hw = hw;
     }

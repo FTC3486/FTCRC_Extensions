@@ -4,13 +4,8 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Subsystems.GlyphGrabber;
 import org.firstinspires.ftc.teamcode.Subsystems.GlyphLift;
 import org.firstinspires.ftc.teamcode.Subsystems.JewelArm;
@@ -19,10 +14,10 @@ import org.firstinspires.ftc.teamcode.Subsystems.RelicClaw;
 import org.firstinspires.ftc.teamcode.Subsystems.RelicLift;
 import org.firstinspires.ftc.teamcode.Subsystems.Spinner;
 
-public class TWAHardwareConfiguration
+public class AutoTWAHardwareConfiguration
 {
-    OpMode opMode;
-    LinearOpMode linearOpMode;
+
+    LinearOpMode opMode;
     //Robot Components
     public Drivetrain drivetrain;
     public Spinner spinner;
@@ -42,7 +37,7 @@ public class TWAHardwareConfiguration
     public RangeAutoDriver rangeAutoDriver;
     public OpticalDistanceAutoDriver opticalDistanceAutoDriver;
 
-    TWAHardwareConfiguration(OpMode opMode)
+    AutoTWAHardwareConfiguration(LinearOpMode opMode)
     {
         this.opMode = opMode;
 
@@ -80,12 +75,13 @@ public class TWAHardwareConfiguration
         parameters.loggingEnabled      = true;
         parameters.loggingTag          = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-        adafruitIMU = opMode.hardwareMap.get(BNO055IMU.class, "imu");
+        adafruitIMU = opMode.hardwareMap.get(BNO055IMU.class, "imu 1");
         adafruitIMU.initialize(parameters);
 
         //Define auto drivers
 
-
+        gyroAutoDriver = new GyroAutoDriver2017(this);
+        encoderAutoDriver = new EncoderAutoDriver2017(this);
     }
 
     void init()
