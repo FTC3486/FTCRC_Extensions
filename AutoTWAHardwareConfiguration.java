@@ -3,16 +3,15 @@ package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Subsystems.GlyphGrabber;
 import org.firstinspires.ftc.teamcode.Subsystems.GlyphLift;
+import org.firstinspires.ftc.teamcode.Subsystems.GlyphSpinner;
 import org.firstinspires.ftc.teamcode.Subsystems.JewelArm;
 import org.firstinspires.ftc.teamcode.Subsystems.RelicArm;
 import org.firstinspires.ftc.teamcode.Subsystems.RelicClaw;
 import org.firstinspires.ftc.teamcode.Subsystems.RelicLift;
-import org.firstinspires.ftc.teamcode.Subsystems.Spinner;
 
 public class AutoTWAHardwareConfiguration
 {
@@ -20,7 +19,7 @@ public class AutoTWAHardwareConfiguration
     LinearOpMode opMode;
     //Robot Components
     public Drivetrain drivetrain;
-    public Spinner spinner;
+    public GlyphSpinner glyphSpinner;
     public GlyphLift glyphLift;
     public GlyphGrabber glyphGrabber;
     public RelicLift relicLift;
@@ -60,7 +59,7 @@ public class AutoTWAHardwareConfiguration
                 .build();
 
         glyphGrabber = new GlyphGrabber("leftservo1","leftservo2","rightservo1","rightservo2", opMode.hardwareMap);
-        spinner = new Spinner("spinner", "SpinnerTouch", opMode.hardwareMap);
+        glyphSpinner = new GlyphSpinner("spinner", "SpinnerTouch", opMode.hardwareMap);
         glyphLift = new GlyphLift("GlyphLift", "LiftTouch", opMode.hardwareMap);
         relicLift = new RelicLift("RelicLift", opMode.hardwareMap);
         relicArm = new RelicArm("RelicArm", opMode.hardwareMap);
