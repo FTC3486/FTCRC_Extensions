@@ -60,7 +60,7 @@ public class TWAHardwareConfiguration
                 .build();
 
         glyphGrabber = new GlyphGrabber("leftservo1","leftservo2","rightservo1","rightservo2", opMode.hardwareMap);
-        glyphSpinner = new GlyphSpinner("spinner", "SpinnerTouch", opMode.hardwareMap);
+        glyphSpinner = new GlyphSpinner("spinner", "SpinnerTouch1", "SpinnerTouch2", opMode.hardwareMap);
         glyphLift = new GlyphLift("GlyphLift", "LiftTouch", opMode.hardwareMap);
         relicLift = new RelicLift("RelicLift", opMode.hardwareMap);
         relicArm = new RelicArm("RelicArm", opMode.hardwareMap);
